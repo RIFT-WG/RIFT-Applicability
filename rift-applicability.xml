@@ -119,6 +119,20 @@
 </address>
 </author>
 
+  <author fullname='Pascal Thubert' initials='P.' role='editor' surname='Thubert'>
+      <organization abbrev='Cisco Systems'>Cisco Systems, Inc</organization>
+      <address>
+         <postal>
+            <street>Building D</street>
+            <street>45 Allee des Ormes - BP1200 </street>
+            <city>MOUGINS - Sophia Antipolis</city>
+            <code>06254</code>
+            <country>FRANCE</country>
+         </postal>
+         <phone>+33 497 23 26 34</phone>
+         <email>pthubert@cisco.com</email>
+      </address>
+   </author>
 <date/>
 
 <area>Routing</area>
@@ -298,6 +312,7 @@ case of dynamic routing on Clos variants with multiple planes and failures
 in bi-sectional bandwidth, especially on the leafs.
 </t>
 
+
 <section><name>Horizontal Links</name>
 <t>
 RIFT is not limited to pure Clos divided into PoD and multi-planes but
@@ -335,6 +350,49 @@ in case of maximum aggregation routing bow-tie problems.
 </t>
 </section>
 
+<section><name>Generalizing to any Directed Acyclic Graph</name>
+<t>
+RIFT is an anisotropic routing protocol, meaning that it has a sense of direction (Northbound, Southbound, East-West) and that it operates differently depending on the direction.
+</t>
+<ul>
+<li>
+Northbound, RIFT operates as a Link State IGP, whereby the control packets are reflooded first all the way North and only interpreted later. All the individual fine grained routes are advertised.
+</li>
+<li>
+  <t>
+  Southbound, RIFT operates as a Distance Vector IGP, whereby the control packets are flooded only one hop, interpreted, and the consequence of that computation is what gets flooded on more hop South. In the most common use-cases, a ToF node can reach most of the prefixes in the fabric. If that is the case, the ToF node advertises the fabric default and disaggregates the prefixes that it cannot reach. On the oethr hand, a ToF Node that can reach only a small subset of the prefixes in the fabric will preferably advertise those prefixes and refrain from aggregating.
+  </t>
+  <t>
+  In the general case, what gets advertised South is in more details:
+  </t>
+  <ol>
+  <li>A fabric default that aggregates all the prefixes that are reachable within the fabric, and that could be a default route or a prefix that is dedicated to this particular fabric.
+  </li>
+  <li>The loopback addresses of the Northbound nodes, e.g., for inband management.
+  </li>
+  <li>The disaggregated prefixes for the dynamic exceptions to the fabric Default, advertised to route around the black hole that may form
+  </li>
+  </ol>
+</li>
+<li>East-West routing can optionally be used, with specific restrictions. It is useful in particular when a sibling has access to the fabric default but this node does not.
+</li>
+</ul>
+  <t>
+  A Directed Acyclic Graph (DAG) provides a sense of North (the direction of the DAG) and of South (the reverse), which can be used to apply RIFT. For the purpose of RIFT an edge in the DAG that has only incoming vertices is a ToF node.
+
+  </t><t>
+  There are a number of caveats though:
+  </t>
+  <ul>
+  <li>The DAG structure must exist before RIFT starts, so there is a need for a companion protocol to establish the logical DAG structure.
+  </li>
+  <li>A generic DAG does not have a sense of East and West. The operation specified for East-West links and the Southbound reflection between nodes are not applicable.
+  </li>
+  <li>
+  In order to aggregate and disaggregate routes, RIFT requires that all the ToF nodes share the full knowledge of the prefixes in the fabric. This can be achieved with a ring as suggested by the RIFT main specification, by some preconfiguration, or using a synchronization with a common repository where all the active prefixes are registered.
+  </li>
+  </ul>
+</section>
 </section>
 
 <section><name>Use Cases</name>
