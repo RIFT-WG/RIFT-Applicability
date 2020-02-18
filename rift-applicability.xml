@@ -690,7 +690,7 @@ Prefix111          Prefix112     Prefix121          Prefix122
     linkTS3 or linkTS4 will be dropped as well. It's the case of black-holing.</t>
     <t>With disaggregation mechanism, when linkTS3 and linkTS4 both fail, ToF22 will
     detect the failure according to the reflected node S-TIE of ToF21 from
-    Spine111\Spine112\Spine121\Spine122. Based on the disaggregation algorithm
+    Spine111\Spine112. Based on the disaggregation algorithm
     provided by RITF, ToF22 will explicitly originate an S-TIE with prefix 121 and
     prefix 122,  that is flooded to spines 111, 112, 121 and 122.</t>
     <t>The packet from leaf111 to prefix122 will not be routed to linkTS1 or
