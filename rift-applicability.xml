@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="std" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-01" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="info" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-01" >
 
 <front>
 
@@ -36,7 +36,7 @@
 
 <code>210012</code>
 
-<country>P. R. China</country>
+<country>China</country>
 </postal>
 
 <email>wei.yuehua@zte.com.cn</email>
@@ -55,7 +55,7 @@
 
 <code>210012</code>
 
-<country>P. R. China</country>
+<country>China</country>
 </postal>
 
 <email>zzhang_ietf@hotmail.com</email>
@@ -863,10 +863,43 @@ X    X  +------+     |                +------+     |
 
 </section>
 
-    <section><name>In-Band Reachability of Nodes</name>
-        <section><name>Reachability of Leafs</name><t>TODO</t></section>
-        <section><name>Reachability of Spines</name><t>TODO</t></section>
-    </section>
+<section><name>In-Band Reachability of Nodes</name>
+	<t>RIFT doesn't precondition that nodes of the fabric have reachable addresses. But the operational purposes to reach the internal nodes may exist. <xref target='In-band-reach'/> shows an example that the NMS attaches to LEAF1.
+	</t>
+    <figure align='center' anchor='In-band-reach'><name>In-Band reachability of node</name>
+        <artwork align='center'><![CDATA[
++-------+      +-------+
+| ToF1  |      | ToF2  |
+++---- ++      ++-----++
+ |     |        |     |
+ |     +----------+   |
+ |     +--------+ |   |
+ |     |          |   |
+++-----++      +--+---++
+|SPINE1 |      |SPINE2 |
+++-----++      ++-----++
+ |     |        |     |
+ |     +----------+   |
+ |     +--------+ |   |
+ |     |          |   |
+++-----++      +--+---++
+| LEAF1 |      | LEAF2 |
++---+---+      +-------+
+    |
+    |NMS
+
+            ]]></artwork>
+        </figure>
+    <t>If NMS wants to access LEAF2, it simply works. Because loopback address of LEAF2 is flooded in its Prefix North TIE.
+	</t>
+	<t>If NMS wants to access SPINE2, it simply works too. Because spine node always advertises its loopback address in the Prefix North TIE. NMS may reach SPINE2 from LEAF1-SPINE2 or LEAF1-SPINE1-ToF1/ToF2-SPINE2.
+	</t>
+	<t>If NMS wants to access ToF2, ToF2's loopback address needs to be injected into its Prefix South TIE. Otherwise, the traffic from NMS may be sent to ToF1.
+	</t>
+	<t>And in case of failure between ToF2 and spine nodes, ToF2’s loopback address must be sent all the way down to the leaves.
+    </t>
+
+</section>
 
 <section><name>Dual Homing Servers</name>
 
@@ -913,29 +946,29 @@ SV(1) SV(2)                 SV(n+1) SV(n)
 
     <figure align='center' anchor='Fabric-controller'><name>Fabric with a controller</name>
         <artwork align='center'><![CDATA[
-                      +------------+
-                      | Controller |
-                      ++----------++
-                       |          |
-                       |          |
-                  +----++        ++----+
- ----------       | ToF |        | ToF |
-      |           +--+--+        +-----+
-      |           |  |           |     |
-      |           |  +-------------+   |
-      |           |     +--------+ |   |
-      |           |     |          |   |
-                  +-----+        +-+---+
- RIFT domain      |SPINE|        |SPINE|
-                  +--+--+        +-----+
-      |           |  |           |     |
-      |           |  +-------------+   |
-      |           |     +--------+ |   |
-      |           |     |          |   |
-      |           +-----+        +-+---+
- ----------       |LEAF |        | LEAF|
-                  +-----+        +-----+
-            ]]></artwork>
+                 +------------+
+                 | Controller |
+                 ++----------++
+                  |          |
+                  |          |
+             +----++        ++----+
+ -------     | ToF |        | ToF |
+    |        +--+--+        +-----+
+    |        |  |           |     |
+    |        |  +-------------+   |
+    |        |     +--------+ |   |
+    |        |     |          |   |
+             +-----+        +-+---+
+RIFT domain  |SPINE|        |SPINE|
+             +--+--+        +-----+
+    |        |  |           |     |
+    |        |  +-------------+   |
+    |        |     +--------+ |   |
+    |        |     |          |   |
+    |        +-----+        +-+---+
+ -------     |LEAF |        | LEAF|
+             +-----+        +-----+
+          ]]></artwork>
         </figure>
     <section><name>Controller Attached to ToFs</name>
         <t>If a controller is attaching to the RIFT domain from ToF, it usually uses dual-homing connections. The loopback prefix of the controller should be advertised down by the ToF and spine to leaves. If the controller loses link to ToF, make sure the ToF withdraw the prefix of the controller(use different mechanisms).</t>
@@ -947,12 +980,13 @@ SV(1) SV(2)                 SV(n+1) SV(n)
 
 </section>
 
-    <section><name>Internet Connectivity Without Underlay</name>
-        <section><name>Internet Default on the Leafs</name>
-            <t>TODO</t>
+    <section><name>Internet Connectivity With Underlay</name>
+	<t>If global addressing is running without overlay, an external default route needs to be advertised through rift fabric to achieve internet connectivity. For the purpose of forwarding of the entire rift fabric, an internal fabric prefix needs to be advertised in the South Prefix TIE by ToF and spine nodes.</t>
+        <section><name>Internet Default on the Leaf</name>
+            <t>In case that an internet access request comes from a leaf and the internet gateway is another leaf, the leaf node as the internet gateway needs to advertise a default route in its Prefix North TIE.</t>
         </section>
         <section><name>Internet Default on the ToFs</name>
-            <t>TODO</t>
+            <t>In case that an internet access request comes from a leaf and the internet gateway is a ToF, the ToF and spine nodes need to advertise a default route in the Prefix South TIE.</t>
         </section>
 
     </section>
