@@ -828,19 +828,25 @@ X    X  +------+     |                +------+     |
 <section><name>Positive vs. Negative Disaggregation</name>
     <t>
     Disaggregation is the procedure whereby <xref target='I-D.ietf-rift-rift'/>
-    advertises more specific routes Southwards as exceptions to the aggregated
-    fabric default North. This is useful when a prefix within the aggregation
-    fis reachable via some of the parents but not the others at the same level
-    of the fabric. This is mandatory when the level is the ToF since a ToF node
-    that cannot reach a prefix becomes a black hole for that prefix.
+    advertises more a specific route Southwards as an exception to the
+    aggregated fabric-default North. Disaggregation is useful when a prefix
+    within the aggregation is reachable via some of the parents but not the
+    others at the same level of the fabric.
+    It is mandatory when the level is the ToF since a ToF node that cannot reach
+    a prefix becomes a black hole for that prefix.
     The hard problem is to know which prefixes are reachable by whom.
     </t>
     <t>
-    for the generic case, <xref target='I-D.ietf-rift-rift'/> solves that
+    In the general case, <xref target='I-D.ietf-rift-rift'/> solves that
     problem by interconnecting the ToF nodes so they can exchange the full list
-    of prefixes that exist in the fabric and figure when a ToF node lacks the
-    reachability to which existing prefix. This requires additional ports at the
+    of prefixes that exist in the fabric and figure when a ToF node lacks
+    reachability and to existing prefix. This requires additional ports at the
     ToF, typically 2 ports per ToF node to form a ToF-spanning ring.
+    xref target='I-D.ietf-rift-rift'/> also defines the Southbound Reflection
+    procedure that enables a parent to explore the direct connectivity of its
+    peers, meaning their own parents and children; based on the advertisements
+    received from the shared parents and children, it may enable the parent to
+    infer the prefixes its peers can reach.
     </t>
     <t>
     When a parent lacks reachability to a prefix, it may disaggregate the prefix
@@ -848,29 +854,29 @@ X    X  +------+     |                +------+     |
     in the aggregation except that one. The Negative Disaggregation signaling is
     simple and functions transitively from ToF to ToP and then from Top to Leaf.
     But it is hard for a parent to figure which prefix it needs to disaggregate,
-    because it does not know what it does not know; the use of spanning ring at
-    the ToF is required to operate the Negative Disaggregation. Also, though it
-    is only an implementation problem, programming the FIB is complex compared
-    to normal routes.
+    because it does not know what it does not know; it results thet the use of a
+    spanning ring at the ToF is required to operate the Negative Disaggregation.
+    Also, though it is only an implementation problem, the programmation of the
+    FIB is complex compared to normal routes, and may incur recursions.
     </t>
     <t>
     The more classical alternative is, for the parents that can reach a prefix
     that peers at the same level cannot, to advertise a more specific route to
     that prefix. This leverages the normal longest prefix match in the FIB, and
-    does not require a special implementation. But as opposed to Negative
+    does not require a special implementation. But as opposed to the Negative
     Disaggregation, the Positive Disaggregation is difficult and inefficient to
     operate transitively.
+    </t>
+    <t>
     Transitivity is not needed to a grandchild if all its parents received the
     Positive Disaggregation, meaning that they shall all avoid the black hole;
     when that is the case, they collectively build a ceiling that protects the
     grandchild. But until then, a parent that received a Positive Disaggregation
     may believe that some peers are lacking the reachability and readvertise too
-    early, or wait and maintain a black hole situation longer than necessary.
+    early, or defer and maintain a black hole situation longer than necessary.
     </t>
     <t>
-    <xref target='I-D.ietf-rift-rift'/> defines the Southbound Reflection
-    procedure that enables a parent to explore the direct connectivity of its
-    peers, meaning their own parents and children.
+
     In a non-partitioned fabric, all the ToF nodes see one another through the
     reflection and can figure if one is missing a child. In that case it is
     possible to compute the prefixes that the peer cannot reach and disaggregate
@@ -879,11 +885,24 @@ X    X  +------+     |                +------+     |
     reach the prefix, meaning that the transitive operation is not required.
     </t>
     <t>
-    The bottom line is that in a fabric that is partitioned and where the ToP
-    nodes are not guaranteed to always form a ceiling for their children, it is
-    mandatory to use the Negative Disaggregation. On the other hand, in a
-    highly symmetrical and fully connected fabric, the Positive Disaggregation
-    is simpler as it avoids the ToF-spanning ring.
+    The bottom line is that in a fabric that is partitioned
+    (e.g., using multiple planes) and/or where the ToP nodes are not guaranteed
+    to always form a ceiling for their children, it is
+    mandatory to use the Negative Disaggregation.
+    On the other hand, in a highly symmetrical and fully connected fabric,
+    (e.g., a canonical Clos Network), the Positive Disaggregation methods allows
+    to save the complexity and cost associated to the ToF-spanning ring.
+    </t>
+    <t>
+    Note that in the case of Positive Disaggregation, the first ToF node(s) that
+    announces a more-specific route attracts all the traffic for that route and
+    may suffer from a transient incast. A ToP node that defers injecting the
+    longer prefix in the FIB, in order to receive more advertisements and spread
+    the packets better, also keeps on sending a portion of the traffic to the
+    black hole in the meantime. In the case of Negative Disaggregation, the last
+    ToF node(s) that injects the route may also incur an incast issue; this
+    problem would occur if a prefix that becomes totally unreachable is
+    disaggregated, but doing so is mostly useless and is not recommended.
     </t>
 
 </section> <!-- Positive vs. Negative Disaggregation -->
