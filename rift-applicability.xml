@@ -24,7 +24,7 @@
 
 
 
-<author fullname='Yuehua Wei' initials='Yuehua' surname='Wei'>
+<author fullname='Yuehua Wei' initials='Yuehua' surname='Wei' role='editor' >
 <organization>ZTE Corporation</organization>
 <address>
 <postal>
@@ -119,7 +119,7 @@
 </address>
 </author>
 
-  <author fullname='Pascal Thubert' initials='P.' role='editor' surname='Thubert'>
+  <author fullname='Pascal Thubert' initials='P.' surname='Thubert'>
       <organization abbrev='Cisco Systems'>Cisco Systems, Inc</organization>
       <address>
          <postal>
@@ -155,7 +155,7 @@ Clos topologies and their variations.
 <section><name>Introduction</name>
 
 <t>This document intends to explain the properties and applicability of
-<xref target='I-D.ietf-rift-rift'>RIFT</xref> in different
+<xref target='I-D.ietf-rift-rift'>"Routing in Fat Trees"</xref> in different
 deployment scenarios and highlight the operational simplicity of the technology compared
 to traditional routing solutions. It also documents special considerations when RIFT is
     used with or without overlays, controllers and corrects topology miscablings and/or node and
@@ -824,6 +824,159 @@ X    X  +------+     |                +------+     |
 
 </section>
 
+
+<section><name>Positive vs. Negative Disaggregation</name>
+    <t>
+    Disaggregation is the procedure whereby <xref target='I-D.ietf-rift-rift'/>
+    advertises more a specific route Southwards as an exception to the
+    aggregated fabric-default North. Disaggregation is useful when a prefix
+    within the aggregation is reachable via some of the parents but not the
+    others at the same level of the fabric.
+    It is mandatory when the level is the ToF since a ToF node that cannot reach
+    a prefix becomes a black hole for that prefix.
+    The hard problem is to know which prefixes are reachable by whom.
+    </t>
+    <t>
+    In the general case, <xref target='I-D.ietf-rift-rift'/> solves that
+    problem by interconnecting the ToF nodes so they can exchange the full list
+    of prefixes that exist in the fabric and figure when a ToF node lacks
+    reachability and to existing prefix. This requires additional ports at the
+    ToF, typically 2 ports per ToF node to form a ToF-spanning ring.
+    xref target='I-D.ietf-rift-rift'/> also defines the Southbound Reflection
+    procedure that enables a parent to explore the direct connectivity of its
+    peers, meaning their own parents and children; based on the advertisements
+    received from the shared parents and children, it may enable the parent to
+    infer the prefixes its peers can reach.
+    </t>
+    <t>
+    When a parent lacks reachability to a prefix, it may disaggregate the prefix
+    negatively, i.e., advertise that this parent can be used to reach any prefix
+    in the aggregation except that one. The Negative Disaggregation signaling is
+    simple and functions transitively from ToF to ToP and then from Top to Leaf.
+    But it is hard for a parent to figure which prefix it needs to disaggregate,
+    because it does not know what it does not know; it results thet the use of a
+    spanning ring at the ToF is required to operate the Negative Disaggregation.
+    Also, though it is only an implementation problem, the programmation of the
+    FIB is complex compared to normal routes, and may incur recursions.
+    </t>
+    <t>
+    The more classical alternative is, for the parents that can reach a prefix
+    that peers at the same level cannot, to advertise a more specific route to
+    that prefix. This leverages the normal longest prefix match in the FIB, and
+    does not require a special implementation. But as opposed to the Negative
+    Disaggregation, the Positive Disaggregation is difficult and inefficient to
+    operate transitively.
+    </t>
+    <t>
+    Transitivity is not needed to a grandchild if all its parents received the
+    Positive Disaggregation, meaning that they shall all avoid the black hole;
+    when that is the case, they collectively build a ceiling that protects the
+    grandchild. But until then, a parent that received a Positive Disaggregation
+    may believe that some peers are lacking the reachability and readvertise too
+    early, or defer and maintain a black hole situation longer than necessary.
+    </t>
+    <t>
+
+    In a non-partitioned fabric, all the ToF nodes see one another through the
+    reflection and can figure if one is missing a child. In that case it is
+    possible to compute the prefixes that the peer cannot reach and disaggregate
+    positively without a ToF-spanning ring. The ToF nodes can also acertain
+    that the ToP nodes are connected each to at least a ToF node that can still
+    reach the prefix, meaning that the transitive operation is not required.
+    </t>
+    <t>
+    The bottom line is that in a fabric that is partitioned
+    (e.g., using multiple planes) and/or where the ToP nodes are not guaranteed
+    to always form a ceiling for their children, it is
+    mandatory to use the Negative Disaggregation.
+    On the other hand, in a highly symmetrical and fully connected fabric,
+    (e.g., a canonical Clos Network), the Positive Disaggregation methods allows
+    to save the complexity and cost associated to the ToF-spanning ring.
+    </t>
+    <t>
+    Note that in the case of Positive Disaggregation, the first ToF node(s) that
+    announces a more-specific route attracts all the traffic for that route and
+    may suffer from a transient incast. A ToP node that defers injecting the
+    longer prefix in the FIB, in order to receive more advertisements and spread
+    the packets better, also keeps on sending a portion of the traffic to the
+    black hole in the meantime. In the case of Negative Disaggregation, the last
+    ToF node(s) that injects the route may also incur an incast issue; this
+    problem would occur if a prefix that becomes totally unreachable is
+    disaggregated, but doing so is mostly useless and is not recommended.
+    </t>
+
+</section> <!-- Positive vs. Negative Disaggregation -->
+
+<section><name>Mobile Edge and Anycast</name>
+
+    <t>
+    When a physical or a virtual node changes its point of attachement in the
+    fabric from a previous-leaf to a next-leaf, new routes must be installed
+    that supercede the old ones. Since the flooding flows Northwards, the nodes
+    (if any) between the previous-leaf and the common parent are not immediately
+    aware that the path via previous-leaf is obsolete, and a stale route may
+    exist for a while. The common parent needs to select the freshest route
+    advertisement in order to install the correct route via the next-leaf. This
+    requires that the fabric determines the sequence of the movements of the
+    mobile node.
+    </t>
+    <t>
+    On the one hand, a classical sequence counter provides a total order for a
+    while but it will eventually wrap. On the other hand, a timestamp provides a
+    permanent order but it may miss a movement that happens too quickly vs.
+    the granularity of the timing information.
+    It is not envisioned in the short term that the average fabric supports a
+    Precision Time Protocol, and the precision that may be available with the
+    <xref target='RFC5905'>Network Time Protocol</xref>, in the order of 100 to
+    200ms, may not be necessarily enough to cover, e.g., the fast mobility of a
+    Virtual Machine.
+    </t>
+    <t>
+    Section 4.3.3.  "Mobility" of <xref target='I-D.ietf-rift-rift'/>
+    specifies an hybrid method that combines a sequence counter from the mobile
+    node and a timestamp from the network taken at the leaf when the route is
+    injected. If the timestamps of the concurrent advertisements are comparable
+    (i.e., more distant than the precision of the timing protocol), then the
+    timestamp alone is used to determine the relative freshness of the routes.
+    Otherwise, the sequence counter from the mobile node, if available, is used.
+    One caveat is that the sequence counter must not wrap within the precision
+    of the timing protocol. Another is that the mobile node may not even provide
+    a sequence counter, in which case the mobility itself must be slower than
+    the precision of the timing.
+    </t>
+    <t>
+    Mobility must not be confused with Anycast. In both cases, a same address is
+    injected in RIFT at different leaves. In the case of mobility, only the
+    freshest route must be conserved, since mobile node changed its point of
+    attachement for a leaf ot the next. In the case of anycast, the node may be
+    either multihomed (attached to multiple leaves in parallel) or reachable
+    beyond the fabric via multiple routes that are redistributed to different
+    leaves; either way, in the case of anycast, the multiple routes are equally
+    valid and should be conserved. Without further information from the
+    redistributed routing protocol, it is impossible to sort out a movement from
+    a redistribution that happens asynchronously on different leaves.
+    <xref target='I-D.ietf-rift-rift'/> expects that anycast addresses are
+    advertised within the timing precision, which is typically the case with a
+    low-precision timing and a multihomed node. Beyond that time interval, RIFT
+    interprets the lag as a mobility and only the freshest route is retained.
+    </t>
+    <t>
+    When using <xref target='RFC8200'>IPv6</xref>, RIFT suggests to leverage
+    <xref target='RFC8505'>"Registration Extensions for IPv6 over Low-Power
+    Wireless Personal Area Network (6LoWPAN) Neighbor Discovery (ND)" </xref>
+    as the IPv6 ND interaction between the mobile node and the leaf. This
+    provides not only a sequence counter but also a lifetime and a security
+    token that may be used to protect the ownership of an address.
+    When using <xref target='RFC8505'/>, the parallel registration of an anycast
+    address to multiple leaves is done with the same sequence counter, whereas
+    the sequence counter is incremented when the point of attachement changes.
+    This way, it is possible to differentiate a mobile node from a multihomed
+    node, even when the mobility happens within the timing precision. It is also
+    possible for a mobile node to be multihomed as well, e.g., to change only
+    one of its points of attachement.
+    </t>
+</section> <!-- Mobile Edge and Anycast -->
+
 <section anchor='v4ov6'><name>IPv4 over IPv6</name>
     <t>RIFT allows advertising IPv4 prefixes over IPv6 RIFT network. IPv6 AF configures via the usual ND
         mechanisms and then V4 can use V6 nexthops analogous to RFC5549. It is expected that the whole fabric
@@ -1078,6 +1231,8 @@ PrefixA      PrefixB         PrefixA    | PrefixC
 
 <back>
 
+   <displayreference   target="I-D.ietf-rift-rift"        to="RIFT"/>
+
 <references><name>Normative References</name>
 <reference anchor='ISO10589-Second-Edition'>
 
@@ -1115,6 +1270,9 @@ PrefixA      PrefixB         PrefixA    | PrefixC
 </references>
 
 <references><name>Informative References</name>
+<xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml'/>
+<xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml'/>
+<xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8505.xml'/>
 </references>
 
 </back>
