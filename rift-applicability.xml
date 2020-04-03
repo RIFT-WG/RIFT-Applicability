@@ -828,7 +828,7 @@ X    X  +------+     |                +------+     |
 <section><name>Positive vs. Negative Disaggregation</name>
     <t>
     Disaggregation is the procedure whereby <xref target='I-D.ietf-rift-rift'/>
-    advertises more a specific route Southwards as an exception to the
+    advertises a more specific route Southwards as an exception to the
     aggregated fabric-default North. Disaggregation is useful when a prefix
     within the aggregation is reachable via some of the parents but not the
     others at the same level of the fabric.
@@ -840,9 +840,9 @@ X    X  +------+     |                +------+     |
     In the general case, <xref target='I-D.ietf-rift-rift'/> solves that
     problem by interconnecting the ToF nodes so they can exchange the full list
     of prefixes that exist in the fabric and figure when a ToF node lacks
-    reachability and to existing prefix. This requires additional ports at the
-    ToF, typically 2 ports per ToF node to form a ToF-spanning ring.
-    xref target='I-D.ietf-rift-rift'/> also defines the Southbound Reflection
+    reachability and to an existing prefix. This requires additional ports at
+    the ToF, typically 2 ports per ToF node to form a ToF-spanning ring.
+    <xref target='I-D.ietf-rift-rift'/> also defines the Southbound Reflection
     procedure that enables a parent to explore the direct connectivity of its
     peers, meaning their own parents and children; based on the advertisements
     received from the shared parents and children, it may enable the parent to
@@ -854,7 +854,7 @@ X    X  +------+     |                +------+     |
     in the aggregation except that one. The Negative Disaggregation signaling is
     simple and functions transitively from ToF to ToP and then from Top to Leaf.
     But it is hard for a parent to figure which prefix it needs to disaggregate,
-    because it does not know what it does not know; it results thet the use of a
+    because it does not know what it does not know; it results that the use of a
     spanning ring at the ToF is required to operate the Negative Disaggregation.
     Also, though it is only an implementation problem, the programmation of the
     FIB is complex compared to normal routes, and may incur recursions.
@@ -862,7 +862,7 @@ X    X  +------+     |                +------+     |
     <t>
     The more classical alternative is, for the parents that can reach a prefix
     that peers at the same level cannot, to advertise a more specific route to
-    that prefix. This leverages the normal longest prefix match in the FIB, and
+    that prefix. This leverages the normal longest prefix match at the FIB, and
     does not require a special implementation. But as opposed to the Negative
     Disaggregation, the Positive Disaggregation is difficult and inefficient to
     operate transitively.
@@ -876,7 +876,6 @@ X    X  +------+     |                +------+     |
     early, or defer and maintain a black hole situation longer than necessary.
     </t>
     <t>
-
     In a non-partitioned fabric, all the ToF nodes see one another through the
     reflection and can figure if one is missing a child. In that case it is
     possible to compute the prefixes that the peer cannot reach and disaggregate
