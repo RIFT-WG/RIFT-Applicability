@@ -582,7 +582,7 @@ easily recognizable remote ends of links and node names.
 
     <section><name>South Reflection</name>
     <t>South reflection is a mechanism that South Node TIEs are "reflected"
-    back up north to allow nodes in same level without E-W links to "see"
+    back up north to allow nodes in the same level without E-W links to "see"
     each other.
     </t>
     <t>For example, Spine111\Spine112\Spine121\Spine122 reflects Node S-TIEs
