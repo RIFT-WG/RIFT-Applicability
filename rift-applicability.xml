@@ -711,7 +711,7 @@ configure the level of all the nodes but those that are forced as leaves to avoi
 
 <t>ZTP requires that the administrator points out the Top-of-Fabric (ToF) nodes to set the baseline from which the fabric topology is derived. The Top-of-Fabric nodes are configured with TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
 The derivation of the level of each node happens then based on LIEs received from its
-neighbors whereas each node (with possibly exceptions of configured leafs) tries to
+neighbors whereas each node (with possibly exceptions of configured leaves) tries to
 attach at the highest possible point in the fabric. This guarantees that even if the diffusion front reaches a
     node from "below" faster
 than from "above", it will greedily abandon already negotiated level derived from nodes
