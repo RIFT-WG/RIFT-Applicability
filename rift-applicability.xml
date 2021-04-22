@@ -515,7 +515,7 @@ The Spine-Leaf architectures deployed inside CloudCO meets the network requireme
 
 </section>
 
-<section anchor='opex'><name>Deployment Considerations</name>
+<section anchor='opex'><name>Operational Considerations</name>
 
 <t>
 RIFT presents the opportunity for organizations building and operating
@@ -699,21 +699,26 @@ Prefix111          Prefix112     Prefix121          Prefix122
     </section>
 
 <section><name>Zero Touch Provisioning (ZTP)</name>
-<t>Each RIFT node may operate in zero touch provisioning (ZTP) mode. It has no
-configuration (unless it is a Top-of-Fabric at the top of the topology or it is
-    desired to confine it to leaf role w/o leaf-2-leaf procedures). In such case RIFT will
-fully configure the node's level after it is attached to the topology.
+<t>
+RIFT is designed to require an arch minimal configuration to simplify its operation and avoid human errors; based on that minimal information, Zero Touch Provisioning (ZTP) autoconfigures the key operational parameters of all the RIFT nodes, that is, on the one hand, the SystemID of the node that must be unique in the RIFT network, and on the other hand the level of the node in the fat tree, which determines which peers are northwards "parents" and which are southwards "children".
+</t>
+<t>
+ZTP is always on, but its decisions can be overridden when a network administrator prefers to impose its own configuration. In that case, it is the responsibility of the administrator to ensure that the configured parameters are correct,
+IOW that the SystemID of each node is unique, and that the administratively set levels truly reflect the relative position of the nodes in the fabric. It is
+recommended to let ZTP configure the network, and when not, it is recommended to
+configure the level of all the nodes but those that are forced as leaves to avoid an undesirable interaction between ZTP and the manual configuration.
 </t>
 
-<t>The most import component for ZTP is the automatic level derivation procedure.
-All the Top-of-Fabric nodes are explicitly marked with TOP_OF_FABRIC flag which are
-initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
+<t>ZTP requires that the administrator points out the Top-of-Fabric (ToF) nodes to set the baseline from which the fabric topology is derived. The Top-of-Fabric nodes are configured with TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
 The derivation of the level of each node happens then based on LIEs received from its
 neighbors whereas each node (with possibly exceptions of configured leafs) tries to
 attach at the highest possible point in the fabric. This guarantees that even if the diffusion front reaches a
     node from "below" faster
 than from "above", it will greedily abandon already negotiated level derived from nodes
 topologically below it and properly peer with nodes above.
+</t>
+<t>
+A RIFT node may also be configured to confine it to the leaf role with the LEAF_ONLY flag. A leaf node can also be configured to support leaf-2-leaf procedures with the LEAF_2_LEAF flag. In either case the node cannot be TOP_OF_FABRIC and its level cannot be configured. RIFT will fully configure the node's level after it is attached to the topology and ensure that the node is at the "bottom of the hierarchy" (southernmost).
 </t>
 </section>
 
