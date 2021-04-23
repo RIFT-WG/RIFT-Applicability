@@ -80,7 +80,7 @@ Table of Contents
        3.2.3.  Generalizing to any Directed Acyclic Graph  . . . . .   7
      3.3.  Use Cases . . . . . . . . . . . . . . . . . . . . . . . .   8
        3.3.1.  Data Center Fabrics . . . . . . . . . . . . . . . . .   8
-       3.3.2.  Metro Fabrics . . . . . . . . . . . . . . . . . . . .   8
+       3.3.2.  Metro Fabrics . . . . . . . . . . . . . . . . . . . .   9
        3.3.3.  Building Cabling  . . . . . . . . . . . . . . . . . .   9
        3.3.4.  Internal Router Switching Fabrics . . . . . . . . . .   9
        3.3.5.  CloudCO . . . . . . . . . . . . . . . . . . . . . . .   9
@@ -244,8 +244,14 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
    *  Maximum propagation speed with flexible prefixes in an update
 
-   And RIFT eliminates the disadvantages of link-state or distance-
-   vector:
+   So there are two types of link-state database which are "north
+   representation" North Topology Information Elements (N-TIEs) and
+   "south representation" South Topology Information Elements (S-TIEs).
+   The N-TIEs contain a link-state topology description of lower levels
+   and S-TIEs carry simply default routes for the lower levels.
+
+   RIFT also eliminates major disadvantages of link-state and distance-
+   vector with:
 
 
    *  Reduced and balanced flooding
@@ -253,8 +259,8 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    *  Automatic neighbor detection
 
 
-   To achieve this, RIFT takes roots in the art of IGPs and proposes
-   unique features:
+   To achieve this, RIFT builds on the art of IGPs, not only OSPF and
+   IS-IS but also MANET and IoT, to provide unique features:
 
    *  Automatic (positive or negative) route disaggregation of
       northwards routes upon fallen leaves
@@ -268,12 +274,6 @@ Internet-Draft        RIFT Applicability Statement            April 2021
       "multipoint relay" (MPR) found in OLSR [RFC3626] and balances the
       flooding load over northbound links and nodes.
 
-   Additional advantages that are unique to RIFT listed below, the
-   details of which can be found in RIFT [RIFT].
-
-   *  True ZTP
-
-   *  Minimal blast radius on failures
 
 
 
@@ -281,6 +281,13 @@ Wei, et al.              Expires 25 October 2021                [Page 5]
 
 Internet-Draft        RIFT Applicability Statement            April 2021
 
+
+   Additional advantages that are unique to RIFT are listed below, the
+   details of which can be found in RIFT [RIFT].
+
+   *  True ZTP
+
+   *  Minimal blast radius on failures
 
    *  Can utilize all Paths through fabric without looping
 
@@ -324,19 +331,18 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    deal necessarily with breaking of "loops" in Dijkstra sense; an
    application for which RIFT is not intended.
 
-   A full-mesh connectivity between nodes on the same level can be
-   employed and that allows N-SPF to provide for any node loosing all
-   its northbound adjacencies (as long as any of the other nodes in the
-   level are northbound connected) to still participate in northbound
-   forwarding.
-
-
 
 
 Wei, et al.              Expires 25 October 2021                [Page 6]
 
 Internet-Draft        RIFT Applicability Statement            April 2021
 
+
+   A full-mesh connectivity between nodes on the same level can be
+   employed and that allows N-SPF to provide for any node loosing all
+   its northbound adjacencies (as long as any of the other nodes in the
+   level are northbound connected) to still participate in northbound
+   forwarding.
 
 3.2.2.  Vertical Shortcuts
 
@@ -379,13 +385,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
       2.  The loopback addresses of the northbound nodes, e.g., for
           inband management.
 
-      3.  The disaggregated prefixes for the dynamic exceptions to the
-          fabric default, advertised to route around the black hole that
-          may form.
 
-   *  East-West routing can optionally be used, with specific
-      restrictions.  It is used when a sibling has access to the fabric
-      default but this node does not.
 
 
 
@@ -393,6 +393,14 @@ Wei, et al.              Expires 25 October 2021                [Page 7]
 
 Internet-Draft        RIFT Applicability Statement            April 2021
 
+
+      3.  The disaggregated prefixes for the dynamic exceptions to the
+          fabric default, advertised to route around the black hole that
+          may form.
+
+   *  East-West routing can optionally be used, with specific
+      restrictions.  It is used when a sibling has access to the fabric
+      default but this node does not.
 
    A Directed Acyclic Graph (DAG) provides a sense of north (the
    direction of the DAG) and of south (the reverse), which can be used
@@ -428,14 +436,6 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    environments compared to extensive proprietary provisioning and
    operational solutions.
 
-3.3.2.  Metro Fabrics
-
-   The demand for bandwidth is increasing steadily, driven primarily by
-   environments close to content producers (server farms connection via
-   DC fabrics) but in proximity to content consumers as well.  Consumers
-   are often clustered in metro areas with their own network
-   architectures that can benefit from simplified, regular Clos
-   structures and hence from RIFT.
 
 
 
@@ -449,6 +449,15 @@ Wei, et al.              Expires 25 October 2021                [Page 8]
 
 Internet-Draft        RIFT Applicability Statement            April 2021
 
+
+3.3.2.  Metro Fabrics
+
+   The demand for bandwidth is increasing steadily, driven primarily by
+   environments close to content producers (server farms connection via
+   DC fabrics) but in proximity to content consumers as well.  Consumers
+   are often clustered in metro areas with their own network
+   architectures that can benefit from simplified, regular Clos
+   structures and hence from RIFT.
 
 3.3.3.  Building Cabling
 
@@ -486,15 +495,6 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    access node, and the Customer Premises Equipments (CPEs) behind it.
    A Network I/O module is facing the core network.  The two I/O modules
    are interconnected by a leaf and spine fabric [TR-384].
-
-
-
-
-
-
-
-
-
 
 
 

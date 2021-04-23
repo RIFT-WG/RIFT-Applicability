@@ -259,7 +259,11 @@ potential disaggregated routes.
             <li>Maximum propagation speed with flexible prefixes in an update</li>
 </ul>
 
-<t>And RIFT eliminates the disadvantages of link-state or distance-vector:
+<t>So there are two types of link-state database which are "north representation" North Topology Information Elements (N-TIEs) and "south representation" South Topology Information Elements (S-TIEs). The N-TIEs contain a link-state topology
+description of lower levels and S-TIEs carry simply default routes for the lower
+levels.
+</t>
+<t>RIFT also eliminates major disadvantages of link-state and distance-vector with:
 </t>
 
     <t>
@@ -269,7 +273,7 @@ potential disaggregated routes.
         </ul><t>
     </t>
 
-<t>To achieve this, RIFT takes roots in the art of IGPs and proposes unique features:
+<t>To achieve this, RIFT builds on the art of IGPs, not only OSPF and IS-IS but also MANET and IoT, to provide unique features:
 </t>
 <ul>
             <li>Automatic (positive or negative) route disaggregation of northwards routes upon fallen leaves</li>
@@ -279,7 +283,7 @@ potential disaggregated routes.
             balances the flooding load over northbound links and nodes.</li>
         </ul>
 
-<t>Additional advantages that are unique to RIFT listed below, the details of which can be found in <xref target='I-D.ietf-rift-rift'>RIFT</xref>.
+<t>Additional advantages that are unique to RIFT are listed below, the details of which can be found in <xref target='I-D.ietf-rift-rift'>RIFT</xref>.
 </t>
 <ul>
             <li>True ZTP</li>
