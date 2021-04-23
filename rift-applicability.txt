@@ -5,7 +5,7 @@
 RIFT WG                                                 Yuehua. Wei, Ed.
 Internet-Draft                                              Zheng. Zhang
 Intended status: Informational                           ZTE Corporation
-Expires: 24 July 2021                                  Dmitry. Afanasiev
+Expires: 25 October 2021                               Dmitry. Afanasiev
                                                                   Yandex
                                                             Tom. Verhaeg
                                                         Juniper Networks
@@ -13,11 +13,11 @@ Expires: 24 July 2021                                  Dmitry. Afanasiev
                                                            Orange Polska
                                                               P. Thubert
                                                            Cisco Systems
-                                                         20 January 2021
+                                                           23 April 2021
 
 
                            RIFT Applicability
-                    draft-ietf-rift-applicability-04
+                    draft-ietf-rift-applicability-05
 
 Abstract
 
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 July 2021.
+   This Internet-Draft will expire on 25 October 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Wei, et al.               Expires 24 July 2021                  [Page 1]
+Wei, et al.              Expires 25 October 2021                [Page 1]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -76,57 +76,57 @@ Table of Contents
      3.1.  Overview of RIFT  . . . . . . . . . . . . . . . . . . . .   4
      3.2.  Applicable Topologies . . . . . . . . . . . . . . . . . .   6
        3.2.1.  Horizontal Links  . . . . . . . . . . . . . . . . . .   6
-       3.2.2.  Vertical Shortcuts  . . . . . . . . . . . . . . . . .   6
+       3.2.2.  Vertical Shortcuts  . . . . . . . . . . . . . . . . .   7
        3.2.3.  Generalizing to any Directed Acyclic Graph  . . . . .   7
      3.3.  Use Cases . . . . . . . . . . . . . . . . . . . . . . . .   8
        3.3.1.  Data Center Fabrics . . . . . . . . . . . . . . . . .   8
-       3.3.2.  Metro Fabrics . . . . . . . . . . . . . . . . . . . .   8
-       3.3.3.  Building Cabling  . . . . . . . . . . . . . . . . . .   8
+       3.3.2.  Metro Fabrics . . . . . . . . . . . . . . . . . . . .   9
+       3.3.3.  Building Cabling  . . . . . . . . . . . . . . . . . .   9
        3.3.4.  Internal Router Switching Fabrics . . . . . . . . . .   9
        3.3.5.  CloudCO . . . . . . . . . . . . . . . . . . . . . . .   9
-   4.  Deployment Considerations . . . . . . . . . . . . . . . . . .  11
+   4.  Operational Considerations  . . . . . . . . . . . . . . . . .  11
      4.1.  South Reflection  . . . . . . . . . . . . . . . . . . . .  12
      4.2.  Suboptimal Routing on Link Failures . . . . . . . . . . .  12
      4.3.  Black-Holing on Link Failures . . . . . . . . . . . . . .  14
      4.4.  Zero Touch Provisioning (ZTP) . . . . . . . . . . . . . .  15
-     4.5.  Mis-cabling Examples  . . . . . . . . . . . . . . . . . .  15
-     4.6.  Positive vs. Negative Disaggregation  . . . . . . . . . .  17
-     4.7.  Mobile Edge and Anycast . . . . . . . . . . . . . . . . .  19
+     4.5.  Mis-cabling Examples  . . . . . . . . . . . . . . . . . .  16
+     4.6.  Positive vs. Negative Disaggregation  . . . . . . . . . .  18
+     4.7.  Mobile Edge and Anycast . . . . . . . . . . . . . . . . .  20
      4.8.  IPv4 over IPv6  . . . . . . . . . . . . . . . . . . . . .  21
      4.9.  In-Band Reachability of Nodes . . . . . . . . . . . . . .  22
-     4.10. Dual Homing Servers . . . . . . . . . . . . . . . . . . .  23
-     4.11. Fabric With A Controller  . . . . . . . . . . . . . . . .  24
-       4.11.1.  Controller Attached to ToFs  . . . . . . . . . . . .  24
+     4.10. Dual Homing Servers . . . . . . . . . . . . . . . . . . .  24
+     4.11. Fabric With A Controller  . . . . . . . . . . . . . . . .  25
+       4.11.1.  Controller Attached to ToFs  . . . . . . . . . . . .  25
        4.11.2.  Controller Attached to Leaf  . . . . . . . . . . . .  25
-     4.12. Internet Connectivity With Underlay . . . . . . . . . . .  25
-       4.12.1.  Internet Default on the Leaf . . . . . . . . . . . .  25
-       4.12.2.  Internet Default on the ToFs . . . . . . . . . . . .  25
-     4.13. Subnet Mismatch and Address Families  . . . . . . . . . .  25
-     4.14. Anycast Considerations  . . . . . . . . . . . . . . . . .  26
-     4.15. IoT Applicability . . . . . . . . . . . . . . . . . . . .  27
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  27
-   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  28
+     4.12. Internet Connectivity With Underlay . . . . . . . . . . .  26
+       4.12.1.  Internet Default on the Leaf . . . . . . . . . . . .  26
+       4.12.2.  Internet Default on the ToFs . . . . . . . . . . . .  26
+     4.13. Subnet Mismatch and Address Families  . . . . . . . . . .  26
+     4.14. Anycast Considerations  . . . . . . . . . . . . . . . . .  27
+     4.15. IoT Applicability . . . . . . . . . . . . . . . . . . . .  28
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .  28
+   6.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  29
 
 
 
-Wei, et al.               Expires 24 July 2021                  [Page 2]
+Wei, et al.              Expires 25 October 2021                [Page 2]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
-   7.  Normative References  . . . . . . . . . . . . . . . . . . . .  28
-   8.  Informative References  . . . . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
+   7.  Normative References  . . . . . . . . . . . . . . . . . . . .  29
+   8.  Informative References  . . . . . . . . . . . . . . . . . . .  30
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  31
 
 1.  Introduction
 
-   This document intends to explain the properties and applicability of
-   "Routing in Fat Trees" [RIFT] in different deployment scenarios and
-   highlight the operational simplicity of the technology compared to
+   This document discusses the properties and applicability of "Routing
+   in Fat Trees" [RIFT] (RIFT) in different deployment scenarios and
+   highlights the operational simplicity of the technology compared to
    traditional routing solutions.  It also documents special
-   considerations when RIFT is used with or without overlays, with or
-   without controllers, corrects topology mis-cablings, and node or link
-   failures.
+   considerations when RIFT is used with or without overlays and/or
+   controllers, and how RIFT corrects topology mis-cablings and/or node
+   and link failures.
 
 2.  Problem Statement of Routing in Modern IP Fabric Fat Tree Networks
 
@@ -136,20 +136,23 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    majority of computation and storage services.
 
    Today's current routing protocols were geared towards a network with
-   an irregular topology and low degree of connectivity originally.
-   When they are applied to fat tree topologies:
+   an irregular topology with isotropic properties, and low degree of
+   connectivity.  When applied to Fat Tree topologies:
 
    *  They tend to need extensive configuration or provisioning during
       bring up and re-dimensioning.
 
-   *  Spine and leaf nodes have the entire network topology and routing
-      information which is in fact not needed on the leaf nodes during
-      normal operation.
+   *  All nodes including spine and leaf nodes learn the entire network
+      topology and routing information, which is in fact, not needed on
+      the leaf nodes during normal operation.
 
-   *  Significant Link State PDUs (LSPs) flooding duplication between
+   *  Significant link-state PDUs (LSPs) flooding duplication between
       spine nodes and leaf nodes occurs during network bring up and
-      topology updates.  It consumes both spine and leaf nodes' CPU and
-      link bandwidth resources.
+      topology updates.
+
+   *  This consumes both CPU and link bandwidth resources which prevents
+      the use of cheaper hardware at the lower levels (leaf and spine)
+      and reduces the scalability and reactivity.of the network.
 
 3.  Applicability of RIFT to Clos IP Fabrics
 
@@ -162,29 +165,32 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 3]
+Wei, et al.              Expires 25 October 2021                [Page 3]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 3.1.  Overview of RIFT
 
-   RIFT is a dynamic routing protocol for Clos and fat tree network
-   topologies.  It defines a link-state protocol when "pointing north"
-   and path-vector protocol when "pointing south".
+   RIFT is a dynamic routing protocol that is specifically tailored for
+   use in Clos and Fat Tree network topologies.  A core property of RIFT
+   is that its operation is sensitive to the structure of the fabric -
+   it is anisotropic.  RIFT acts as a link-state protocol when "pointing
+   north" - advertising southwards routes to northwards peer routers
+   (parents) through flooding and database synchronization- but operates
+   hop-by-hop like a distance-vector protocol when "pointing south" -
+   typically advertising a fabric default route directed towards the
+   superspine to southwards peer routers (children) -.
 
-   It floods flat link-state information northbound only so that each
+   RIFT floods flat link-state information northbound only so that each
    level obtains the full topology of levels south of it.  That
    information is never flooded east-west or back south again.  So a top
    tier node has full set of prefixes from the Shortest Path First (SPF)
    calculation.
 
    In the southbound direction, the protocol operates like a "fully
-   summarizing, unidirectional" path vector protocol or rather a
-   distance vector with implicit split horizon.  Routing information,
+   summarizing, unidirectional" path-vector protocol or rather a
+   distance-vector with implicit split horizon.  Routing information,
    normally just the default route, propagates one hop south and is 're-
    advertised' by nodes at next lower level.
 
@@ -195,7 +201,7 @@ Internet-Draft        RIFT Applicability Statement          January 2021
       +         |     |  |  +-------------------------+   |
       Distance  |  +-------------------+ |  |      |  |   |
       Vector    |  |  |  |               |  |      |  |   +
-      South     |  |  |  |      +--------+  |      |  |   Link-state
+      South     |  |  |  |      +--------+  |      |  |   Link-State
       +         |  |  |  |      |           |      |  |   Flooding
       |         |  |  +-------------+       |      |  |   North
       v         |  |     |      |   |       |      |  |   +
@@ -213,39 +219,30 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
                           Figure 1: Rift overview
 
+
+
+Wei, et al.              Expires 25 October 2021                [Page 4]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
    A spine node has only information necessary for its level, which is
    all destinations south of the node based on SPF calculation, default
    route, and potential disaggregated routes.
 
-   RIFT combines the advantage of both link-state and distance vector:
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 4]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
+   RIFT combines the advantage of both link-state and distance-vector:
 
    *  Fastest possible convergence
 
    *  Automatic detection of topology
 
-   *  Minimal routes/info on tors
+   *  Minimal routes/info on Top-of-Rack (ToR) switches, aka leaf nodes
 
    *  High degree of ECMP
 
    *  Fast de-commissioning of nodes
 
-   *  Maximum Propagation speed with flexible prefixes in an update
-
-   And RIFT eliminates the disadvantages of link-state or distance
-   vector:
-
-
-   *  Reduced and balanced flooding
-
-   *  Automatic neighbor detection
-
+   *  Maximum propagation speed with flexible prefixes in an update
 
    So there are two types of link-state database which are "north
    representation" North Topology Information Elements (N-TIEs) and
@@ -253,16 +250,46 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    The N-TIEs contain a link-state topology description of lower levels
    and S-TIEs carry simply default routes for the lower levels.
 
-   There are more advantages unique to RIFT listed below which could be
-   understood if you read the details of RIFT [RIFT].
+   RIFT also eliminates major disadvantages of link-state and distance-
+   vector with:
+
+
+   *  Reduced and balanced flooding
+
+   *  Automatic neighbor detection
+
+
+   To achieve this, RIFT builds on the art of IGPs, not only OSPF and
+   IS-IS but also MANET and IoT, to provide unique features:
+
+   *  Automatic (positive or negative) route disaggregation of
+      northwards routes upon fallen leaves
+
+   *  Recursive operation in the case of negative route disaggregation
+
+   *  Anisotropic routing that extends a principle seen in RPL [RFC6550]
+      to wide superspines
+
+   *  Optimal Flooding Reduction that derives from the concept of a
+      "multipoint relay" (MPR) found in OLSR [RFC3626] and balances the
+      flooding load over northbound links and nodes.
+
+
+
+
+Wei, et al.              Expires 25 October 2021                [Page 5]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
+   Additional advantages that are unique to RIFT are listed below, the
+   details of which can be found in RIFT [RIFT].
 
    *  True ZTP
 
    *  Minimal blast radius on failures
 
-   *  Can utilize all paths through fabric without looping
-
-   *  Automatic disaggregation on failures
+   *  Can utilize all Paths through fabric without looping
 
    *  Simple leaf implementation that can scale down to servers
 
@@ -270,40 +297,32 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
    *  Horizontal links used for protection only
 
-   *  Supports non-equal cost multipath and can replace MC-LAG
-
-   *  Optimal flooding reduction and load-balancing
-
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 5]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
+   *  Supports non-equal cost multipath (NECMP) and can replace multi-
+      chassis link aggregation group (MLAG or MC-LAG)
 
 3.2.  Applicable Topologies
 
-   Albeit RIFT is specified primarily for "proper" Clos or "fat tree"
-   structures, it already supports Points of Delivery (PoD) concepts
-   which are strictly speaking not found in original Clos concepts.
+   Albeit RIFT is specified primarily for "proper" Clos or Fat Tree
+   topologies, the protocol natively supports Points of Delivery (PoD)
+   concepts, which, strictly speaking, are not found in the original
+   Clos concept.
 
    Further, the specification explains and supports operations of multi-
-   plane Clos variants where the protocol relies on set of rings to
-   allow the reconciliation of topology view of different planes as most
-   desirable solution making proper disaggregation viable in case of
-   failures.  These observations hold not only in case of RIFT but also
-   in the generic case of dynamic routing on Clos variants with multiple
-   planes and failures in bi-sectional bandwidth, especially on the
-   leafs.
+   plane Clos variants where the protocol recommends the use of inter-
+   plane rings at the Top-of-Fabric level to allow the reconciliation of
+   topology view of different planes to make the negative disaggregation
+   viable in case of failures within a plane.  These observations hold
+   not only in case of RIFT but also in the generic case of dynamic
+   routing on Clos variants with multiple planes and failures in bi-
+   sectional bandwidth, especially on the leafs.
 
 3.2.1.  Horizontal Links
 
    RIFT is not limited to pure Clos divided into PoD and multi-planes
-   but supports horizontal links below the top of fabric level.  Those
-   links are used only as routes of last resort northbound when a spine
-   loses all northbound links or cannot compute a default route through
-   them.
+   but supports horizontal (East-West) links below the top of fabric
+   level.  Those links are used only for last resort northbound routes
+   when a spine loses all its northbound links or cannot compute a
+   default route through them.
 
    A possible configuration is a "ring" of horizontal links at a level.
    In presence of such a "ring" in any level (except Top of Fabric (ToF)
@@ -311,6 +330,13 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    "ring-based protection" scheme since such a computation would have to
    deal necessarily with breaking of "loops" in Dijkstra sense; an
    application for which RIFT is not intended.
+
+
+
+Wei, et al.              Expires 25 October 2021                [Page 6]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
    A full-mesh connectivity between nodes on the same level can be
    employed and that allows N-SPF to provide for any node loosing all
@@ -325,18 +351,8 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    proposed by e.g.  [I-D.white-distoptflood].  The RIFT specification
    itself does not provide the exact details since the resulting
    solution suffers from either much larger blast radius with increased
-   flooding volumes or in case of maximum aggregation routing bow-tie
+   flooding volumes or in case of maximum aggregation routing, bow-tie
    problems.
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 6]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
 
 3.2.3.  Generalizing to any Directed Acyclic Graph
 
@@ -344,12 +360,13 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    of direction (northbound, southbound, east-west) and that it operates
    differently depending on the direction.
 
-   *  Northbound, RIFT operates as a link-state IGP, whereby the control
-      packets are reflooded first all the way north and only interpreted
-      later.  All the individual fine grained routes are advertised.
+   *  Northbound, RIFT operates as a link-state protocol, whereby the
+      control packets are reflooded first all the way north and only
+      interpreted later.  All the individual fine grained routes are
+      advertised.
 
-   *  Southbound, RIFT operates as a distance vector IGP, whereby the
-      control packets are flooded only one hop, interpreted, and the
+   *  Southbound, RIFT operates as a distance-vector protocol, whereby
+      the control packets are flooded only one-hop, interpreted, and the
       consequence of that computation is what gets flooded one more hop
       south.  In the most common use-cases, a ToF node can reach most of
       the prefixes in the fabric.  If that is the case, the ToF node
@@ -368,13 +385,22 @@ Internet-Draft        RIFT Applicability Statement          January 2021
       2.  The loopback addresses of the northbound nodes, e.g., for
           inband management.
 
+
+
+
+
+Wei, et al.              Expires 25 October 2021                [Page 7]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
       3.  The disaggregated prefixes for the dynamic exceptions to the
           fabric default, advertised to route around the black hole that
           may form.
 
-   *  East-west routing can optionally be used, with specific
-      restrictions.  It is useful in particular when a sibling has
-      access to the fabric default but this node does not.
+   *  East-West routing can optionally be used, with specific
+      restrictions.  It is used when a sibling has access to the fabric
+      default but this node does not.
 
    A Directed Acyclic Graph (DAG) provides a sense of north (the
    direction of the DAG) and of south (the reverse), which can be used
@@ -386,13 +412,6 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    *  The DAG structure must exist before RIFT starts, so there is a
       need for a companion protocol to establish the logical DAG
       structure.
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 7]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
 
    *  A generic DAG does not have a sense of east and west.  The
       operation specified for east-west links and the southbound
@@ -417,6 +436,20 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    environments compared to extensive proprietary provisioning and
    operational solutions.
 
+
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021                [Page 8]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
 3.3.2.  Metro Fabrics
 
    The demand for bandwidth is increasing steadily, driven primarily by
@@ -424,7 +457,7 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    DC fabrics) but in proximity to content consumers as well.  Consumers
    are often clustered in metro areas with their own network
    architectures that can benefit from simplified, regular Clos
-   structures and hence RIFT.
+   structures and hence from RIFT.
 
 3.3.3.  Building Cabling
 
@@ -434,21 +467,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    protocols (except BGP and by now largely phased-out PNNI) which do
    not support an arbitrary number of levels which RIFT does naturally.
    Moreover, due to the limited sizes of forwarding tables in network
-   elements of building cabling&#65292;the minimum FIB size RIFT
-   maintains under normal conditions is cost-effective in terms of
-   hardware and operational costs.
-
-
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 8]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
+   elements of building cabling, the minimum FIB size RIFT maintains
+   under normal conditions is cost-effective in terms of hardware and
+   operational costs.
 
 3.3.4.  Internal Router Switching Fabrics
 
@@ -468,42 +489,21 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    and Network Function Virtualization (NFV) in conjunction with general
    purpose hardware to optimize current networks.  The following figure
    illustrates this architecture at a high level.  It describes a single
-   instance or macro-node of cloud CO.  An Access I/O module faces a
-   Cloud CO access node, and the Customer Premises Equipments (CPEs)
-   behind it.  A Network I/O module is facing the core network.  The two
-   I/O modules are interconnected by a leaf and spine fabric.  [TR-384]
+   instance or macro-node of cloud CO that provides a number of Value
+   Added Services (VAS), a Broadband Access Abstraction (BAA), and
+   virtualized nerwork services.  An Access I/O module faces a Cloud CO
+   access node, and the Customer Premises Equipments (CPEs) behind it.
+   A Network I/O module is facing the core network.  The two I/O modules
+   are interconnected by a leaf and spine fabric [TR-384].
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                  [Page 9]
+Wei, et al.              Expires 25 October 2021                [Page 9]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
         +---------------------+           +----------------------+
@@ -557,12 +557,12 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 10]
+Wei, et al.              Expires 25 October 2021               [Page 10]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
-4.  Deployment Considerations
+4.  Operational Considerations
 
    RIFT presents the opportunity for organizations building and
    operating IP fabrics to simplify their operation and deployments
@@ -613,13 +613,15 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 11]
+Wei, et al.              Expires 25 October 2021               [Page 11]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    *  RIFT is designed for minimum delay in case of prefix mobility on
-      the fabric.
+      the fabric.  In conjunction with [RFC8505], RIFT can differentiate
+      anycast advertisements from mobility events and retain only the
+      most recent advertisement in the latter case.
 
    *  Many further operational and design points collected over many
       years of routing protocol deployments have been incorporated in
@@ -667,11 +669,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 12]
+Wei, et al.              Expires 25 October 2021               [Page 12]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
                   +--------+          +--------+
@@ -725,9 +725,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 13]
+Wei, et al.              Expires 25 October 2021               [Page 13]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 4.3.  Black-Holing on Link Failures
@@ -781,9 +781,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 14]
+Wei, et al.              Expires 25 October 2021               [Page 14]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    The packet from leaf111 to prefix122 will not be routed to linkTS1 or
@@ -792,23 +792,55 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 4.4.  Zero Touch Provisioning (ZTP)
 
-   Each RIFT node may operate in zero touch provisioning (ZTP) mode.  It
-   has no configuration (unless it is a ToF at the top of the topology
-   or it is desired to confine it to leaf role w/o leaf-2-leaf
-   procedures).  In such case RIFT will fully configure the node's level
-   after it is attached to the topology.
+   RIFT is designed to require an arch minimal configuration to simplify
+   its operation and avoid human errors; based on that minimal
+   information, Zero Touch Provisioning (ZTP) autoconfigures the key
+   operational parameters of all the RIFT nodes, that is, on the one
+   hand, the SystemID of the node that must be unique in the RIFT
+   network, and on the other hand the level of the node in the Fat Tree,
+   which determines which peers are northwards "parents" and which are
+   southwards "children".
 
-   The most important component for ZTP is the automatic level
-   derivation procedure.  All the ToF nodes are explicitly marked with
-   TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP
-   nodes to derive their level in the topology.  The derivation of the
-   level of each node happens then based on Link Information Elements
-   (LIEs) received from its neighbors whereas each node (with possibly
-   exceptions of configured leafs) tries to attach at the highest
-   possible point in the fabric.  This guarantees that even if the
-   diffusion front reaches a node from "below" faster than from "above",
-   it will greedily abandon already negotiated level derived from nodes
-   topologically below it and properly peer with nodes above.
+   ZTP is always on, but its decisions can be overridden when a network
+   administrator prefers to impose its own configuration.  In that case,
+   it is the responsibility of the administrator to ensure that the
+   configured parameters are correct, IOW that the SystemID of each node
+   is unique, and that the administratively set levels truly reflect the
+   relative position of the nodes in the fabric.  It is recommended to
+   let ZTP configure the network, and when not, it is recommended to
+   configure the level of all the nodes but those that are forced as
+   leaves to avoid an undesirable interaction between ZTP and the manual
+   configuration.
+
+   ZTP requires that the administrator points out the Top-of-Fabric
+   (ToF) nodes to set the baseline from which the fabric topology is
+   derived.  The Top-of-Fabric nodes are configured with TOP_OF_FABRIC
+   flag which are initial 'seeds' needed for other ZTP nodes to derive
+   their level in the topology.  The derivation of the level of each
+   node happens then based on Link Information Elements (LIEs) received
+   from its neighbors whereas each node (with possibly exceptions of
+   configured leaves) tries to attach at the highest possible point in
+   the fabric.  This guarantees that even if the diffusion front reaches
+   a node from "below" faster than from "above", it will greedily
+   abandon already negotiated level derived from nodes topologically
+   below it and properly peer with nodes above.
+
+   A RIFT node may also be configured to confine it to the leaf role
+   with the LEAF_ONLY flag.  A leaf node can also be configured to
+   support leaf-2-leaf procedures with the LEAF_2_LEAF flag.  In either
+   case the node cannot be TOP_OF_FABRIC and its level cannot be
+   configured.  RIFT will fully configure the node's level after it is
+   attached to the topology and ensure that the node is at the "bottom
+   of the hierarchy" (southernmost).
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 15]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
 4.5.  Mis-cabling Examples
 
@@ -834,21 +866,13 @@ Internet-Draft        RIFT Applicability Statement          January 2021
       |Leaf111|    |Leaf112+-----+     |Leaf121|    |Leaf122| LEVEL 0
       +-------+    +-------+           +-------+    +-------+
 
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 15]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
                 Figure 5: A single plane mis-cabling example
 
    Figure 5 shows a single plane mis-cabling example.  It's a perfect
-   fat tree fabric except link-M connecting Leaf112 to ToF22.
+   Fat Tree fabric except link-M connecting Leaf112 to ToF22.
 
    The RIFT control protocol can discover the physical links
-   automatically and be able to detect cabling that violates fat tree
+   automatically and be able to detect cabling that violates Fat Tree
    topology constraints.  It reacts accordingly to such mis-cabling
    attempts, at a minimum preventing adjacencies between nodes from
    being formed and traffic from being forwarded on those mis-cabled
@@ -860,6 +884,19 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    and Spine121 belong to two different PoDs, the adjacency between
    Leaf112 and Spine121 can not be formed. link-W would be detected and
    prevented.
+
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 16]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
       +-------+    +-------+           +-------+    +-------+
       |ToF  A1|    |ToF  A2|           |ToF  B1|    |ToF  B2| LEVEL 2
@@ -890,14 +927,6 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    RIFT provides an optional level determination procedure in its Zero
    Touch Provisioning mode.  Nodes in the fabric without their level
    configured determine it automatically.  This can have possibly
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 16]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    counter-intuitive consequences however.  One extreme failure scenario
    is depicted in Figure 7 and it shows that if all northbound links of
    spine11 fail at the same time, spine11 negotiates a lower level than
@@ -909,6 +938,21 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    Figure 7.  It will be isolated from the whole fabric and it would be
    up to the leafs to declare the links towards such spine as mis-
    cabled.
+
+
+
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 17]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
            +-------+    +-------+        +-------+    +-------+
            |ToF  A1|    |ToF  A2|        |ToF  A1|    |ToF  A2|
@@ -946,16 +990,25 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    aggregation is reachable via some of the parents but not the others
    at the same level of the fabric.  It is mandatory when the level is
    the ToF since a ToF node that cannot reach a prefix becomes a black
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 17]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    hole for that prefix.  The hard problem is to know which prefixes are
    reachable by whom.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 18]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
    In the general case, [RIFT] solves that problem by interconnecting
    the ToF nodes.  So the ToF nodes can exchange the full list of
@@ -996,20 +1049,6 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    are lacking the reachability and readvertise too early, or defer and
    maintain a black hole situation longer than necessary.
 
-
-
-
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 18]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    In a non-partitioned fabric, all the ToF nodes see one another
    through the reflection and can figure if one is missing a child.  In
    that case it is possible to compute the prefixes that the peer cannot
@@ -1017,6 +1056,15 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    ToF nodes can also ascertain that the ToP nodes are connected each to
    at least a ToF node that can still reach the prefix, meaning that the
    transitive operation is not required.
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 19]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
    The bottom line is that in a fabric that is partitioned (e.g., using
    multiple planes) and/or where the ToP nodes are not guaranteed to
@@ -1050,22 +1098,6 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    that the fabric determines the sequence of the movements of the
    mobile node.
 
-
-
-
-
-
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 19]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    On the one hand, a classical sequence counter provides a total order
    for a while but it will eventually wrap.  On the other hand, a
    timestamp provides a permanent order but it may miss a movement that
@@ -1082,6 +1114,14 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    timestamps of the concurrent advertisements are comparable (i.e.,
    more distant than the precision of the timing protocol), then the
    timestamp alone is used to determine the relative freshness of the
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 20]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
    routes.  Otherwise, the sequence counter from the mobile node, if
    available, is used.  One caveat is that the sequence counter must not
    wrap within the precision of the timing protocol.  Another is that
@@ -1114,14 +1154,6 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    may be used to protect the ownership of an address [RFC8928].  When
    using [RFC8505], the parallel registration of an anycast address to
    multiple leaves is done with the same sequence counter, whereas the
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 20]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    sequence counter is incremented when the point of attachement
    changes.  This way, it is possible to differentiate a mobile node
    from a multihomed node, even when the mobility happens within the
@@ -1138,45 +1170,43 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    forwarding of address families on all the links.  RIFT provides an
    indication whether a node is v4 forwarding capable and
    implementations are possible where different routing tables are
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 21]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
    computed per address family as long as the computation remains loop-
    free.
 
-                           +-----+        +-----+
-                +---+---+  | ToF |        | ToF |
-                    ^      +--+--+        +-----+
-                    |      |  |           |     |
-                    |      |  +-------------+   |
-                    |      |     +--------+ |   |
-                    +      |     |          |   |
-                   V6      +-----+        +-+---+
-                Forwarding |Spine|        |Spine|
-                    +      +--+--+        +-----+
-                    |      |  |           |     |
-                    |      |  +-------------+   |
-                    |      |     +--------+ |   |
-                    |      |     |          |   |
-                    v      +-----+        +-+---+
-                +---+---+  |Leaf |        | Leaf|
-                           +--+--+        +--+--+
-                              |              |
-                 IPv4 prefixes|              |IPv4 prefixes
-                              |              |
-                          +---+----+     +---+----+
-                          |   V4   |     |   V4   |
-                          | subnet |     | subnet |
-                          +--------+     +--------+
+                            +-----+        +-----+
+                 +---+---+  | ToF |        | ToF |
+                     ^      +--+--+        +-----+
+                     |      |  |           |     |
+                     |      |  +-------------+   |
+                     |      |     +--------+ |   |
+                     +      |     |          |   |
+                    V6      +-----+        +-+---+
+                 Forwarding |Spine|        |Spine|
+                     +      +--+--+        +-----+
+                     |      |  |           |     |
+                     |      |  +-------------+   |
+                     |      |     +--------+ |   |
+                     |      |     |          |   |
+                     v      +-----+        +-+---+
+                 +---+---+  |Leaf |        | Leaf|
+                            +--+--+        +--+--+
+                               |              |
+                  IPv4 prefixes|              |IPv4 prefixes
+                               |              |
+                           +---+----+     +---+----+
+                           |   V4   |     |   V4   |
+                           | subnet |     | subnet |
+                           +--------+     +--------+
 
                           Figure 8: IPv4 over IPv6
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 21]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
 
 4.9.  In-Band Reachability of Nodes
 
@@ -1184,6 +1214,25 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    addresses.  But the operational purposes to reach the internal nodes
    may exist.  Figure 9 shows an example that the network management
    station (NMS) attaches to leaf1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 22]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
                          +-------+      +-------+
                          | ToF1  |      | ToF2  |
@@ -1226,20 +1275,20 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    nodes, ToF2's loopback address must be disaggregated recursively all
    the way to the leaves.
 
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 22]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    In a partitioned ToF, a TOF node is only reachable within its Plane,
    and the disaggregation to the leaves is also required.  A possible
    alternative is to use the ring that interconnects the ToF nodes to
    transmit packets between them for their loopback addresses only.  The
    idea is that this is mostly control traffic and should not alter the
    load balancing properties of the fabric.
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 23]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
 4.10.  Dual Homing Servers
 
@@ -1280,21 +1329,22 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    routes are disaggregated and the FIB of the servers will be expanded
    with n-1 more specific routes.
 
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 23]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
    Sometimes, people may prefer to disaggregate from ToR to servers from
    start on, i.e. the servers have couple tens of routes in FIB from
    start on beside default routes to avoid breakages at rack level.
    Full disaggregation of the fabric could be achieved by configuration
    supported by RIFT.
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 24]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
 4.11.  Fabric With A Controller
 
@@ -1335,21 +1385,22 @@ Internet-Draft        RIFT Applicability Statement          January 2021
    controller loses link to ToF, make sure the ToF withdraw the prefix
    of the controller(use different mechanisms).
 
-
-
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 24]
-
-Internet-Draft        RIFT Applicability Statement          January 2021
-
-
 4.11.2.  Controller Attached to Leaf
 
    If the controller is attaching from a leaf to the fabric, no special
    provisions are needed.
+
+
+
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 25]
+
+Internet-Draft        RIFT Applicability Statement            April 2021
+
 
 4.12.  Internet Connectivity With Underlay
 
@@ -1397,9 +1448,14 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 25]
+
+
+
+
+
+Wei, et al.              Expires 25 October 2021               [Page 26]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    To prevent this a RIFT implementation should check for subnet
@@ -1453,9 +1509,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 26]
+Wei, et al.              Expires 25 October 2021               [Page 27]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 4.15.  IoT Applicability
@@ -1509,9 +1565,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 27]
+Wei, et al.              Expires 25 October 2021               [Page 28]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 6.  Contributors
@@ -1565,9 +1621,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 28]
+Wei, et al.              Expires 25 October 2021               [Page 29]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    [RFC7130]  Bhatia, M., Ed., Chen, M., Ed., Boutros, S., Ed.,
@@ -1621,9 +1677,9 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-Wei, et al.               Expires 24 July 2021                 [Page 29]
+Wei, et al.              Expires 25 October 2021               [Page 30]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
 
 
    [IEEEstd1588]
@@ -1638,6 +1694,11 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
    [FATTREE]  Leiserson, C. E., "Fat-Trees: Universal Networks for
               Hardware-Efficient Supercomputing", 1985.
+
+   [RFC3626]  Clausen, T., Ed. and P. Jacquet, Ed., "Optimized Link
+              State Routing Protocol (OLSR)", RFC 3626,
+              DOI 10.17487/RFC3626, October 2003,
+              <https://www.rfc-editor.org/info/rfc3626>.
 
    [RFC5905]  Mills, D., Martin, J., Ed., Burbank, J., and W. Kasch,
               "Network Time Protocol Version 4: Protocol and Algorithms
@@ -1669,17 +1730,15 @@ Authors' Addresses
    210012
    China
 
-   Email: wei.yuehua@zte.com.cn
 
 
 
-
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 30]
+Wei, et al.              Expires 25 October 2021               [Page 31]
 
-Internet-Draft        RIFT Applicability Statement          January 2021
+Internet-Draft        RIFT Applicability Statement            April 2021
+
+
+   Email: wei.yuehua@zte.com.cn
 
 
    Zheng Zhang
@@ -1730,7 +1789,4 @@ Internet-Draft        RIFT Applicability Statement          January 2021
 
 
 
-
-
-
-Wei, et al.               Expires 24 July 2021                 [Page 31]
+Wei, et al.              Expires 25 October 2021               [Page 32]

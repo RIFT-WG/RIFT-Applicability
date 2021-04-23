@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="info" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-04" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="info" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-05" >
 
 <front>
 
@@ -154,12 +154,11 @@ Clos topologies and their variations.
 <middle>
 <section><name>Introduction</name>
 
-<t>This document intends to explain the properties and applicability of
-<xref target='I-D.ietf-rift-rift'>"Routing in Fat Trees"</xref> in different
-deployment scenarios and highlight the operational simplicity of the technology compared
-to traditional routing solutions. It also documents special considerations when RIFT is
-    used with or without overlays, with or without controllers, corrects topology mis-cablings, and node or
-    link failures.
+<t>This document discusses the properties and applicability of
+<xref target='I-D.ietf-rift-rift'>"Routing in Fat Trees"</xref> (RIFT) in
+different deployment scenarios and highlights the operational simplicity of the
+technology compared to traditional routing solutions.
+It also documents special considerations when RIFT is used with or without overlays and/or controllers, and how RIFT corrects topology mis-cablings and/or node and link failures.
 </t>
 
 </section>
@@ -169,20 +168,22 @@ to traditional routing solutions. It also documents special considerations when 
 <t><xref target="CLOS">Clos</xref> and <xref target="FATTREE">fat tree</xref> topologies have gained prominence in today's networking, primarily as a result of the paradigm shift towards a centralized data-center based architecture that deliver a majority of computation and storage services.
 </t>
 
-<t>Today's current routing protocols were geared towards a network with an irregular
-topology and low degree of connectivity originally. When they are applied to fat tree
-topologies:
+<t>Today's current routing protocols were geared towards a network with an
+irregular topology with isotropic properties, and low degree of connectivity.
+When applied to Fat Tree topologies:
 </t>
 
     <ul>
             <li>They tend to need extensive configuration or provisioning during bring up
             and re-dimensioning.</li>
-            <li>Spine and leaf nodes have the entire network topology and
-            routing information which is in fact not needed on the leaf nodes during normal
+            <li>All nodes including spine and leaf nodes learn the entire network topology and
+            routing information, which is in fact, not needed on the leaf nodes during normal
                 operation.</li>
-            <li>Significant Link State PDUs (LSPs) flooding duplication between
-            spine nodes and leaf nodes occurs during network bring up and topology updates. It
-            consumes both spine and leaf nodes' CPU and link bandwidth resources.</li>
+            <li>Significant link-state PDUs (LSPs) flooding duplication between
+            spine nodes and leaf nodes occurs during network bring up and topology updates. </li>
+            <li>This
+            consumes both  CPU and link bandwidth resources which prevents the
+            use of cheaper hardware at the lower levels (leaf and spine) and reduces the scalability and reactivity.of the network.</li>
     </ul>
 </section>
 
@@ -196,19 +197,23 @@ terms and concepts used in <xref target='RFC2328'>OSPF</xref>
 and <xref target='ISO10589-Second-Edition'>IS-IS</xref> link-state protocols. The sections of <xref target='I-D.ietf-rift-rift'>RIFT</xref> outline the requirements of routing in IP fabrics and RIFT protocol concepts.
 </t>
 <section><name>Overview of RIFT</name>
-<t>RIFT is a dynamic routing protocol for Clos and fat tree network topologies.
-It defines a link-state protocol when "pointing north" and path-vector protocol
-when "pointing south".
+<t>RIFT is a dynamic routing protocol that is specifically tailored for use in Clos and Fat Tree network topologies. A core property of RIFT is that its operation is
+sensitive to the structure of the fabric - it is anisotropic. RIFT
+acts as a link-state protocol when "pointing north" - advertising southwards
+routes to northwards peer routers (parents) through flooding and database synchronization- but
+operates hop-by-hop like a distance-vector protocol
+when "pointing south" - typically advertising a fabric default route directed
+towards the superspine to southwards peer routers (children) -.
 </t>
 
-<t>It floods flat link-state information northbound only so that each level
+<t>RIFT floods flat link-state information northbound only so that each level
 obtains the full topology of levels south of it. That information is never flooded
 east-west or back south again. So a top tier node has full set of prefixes from
 the Shortest Path First (SPF) calculation.
 </t>
 
 <t>In the southbound direction, the protocol operates like a "fully summarizing,
-unidirectional" path vector protocol or rather a distance vector with implicit split horizon. Routing information, normally just the default route, propagates one hop south and is 're-advertised' by nodes at next lower level.
+unidirectional" path-vector protocol or rather a distance-vector with implicit split horizon. Routing information, normally just the default route, propagates one hop south and is 're-advertised' by nodes at next lower level.
 </t>
 
      <figure align='center' anchor='pic-rift'><name>Rift overview</name>
@@ -220,7 +225,7 @@ unidirectional" path vector protocol or rather a distance vector with implicit s
 +         |     |  |  +-------------------------+   |
 Distance  |  +-------------------+ |  |      |  |   |
 Vector    |  |  |  |               |  |      |  |   +
-South     |  |  |  |      +--------+  |      |  |   Link-state
+South     |  |  |  |      +--------+  |      |  |   Link-State
 +         |  |  |  |      |           |      |  |   Flooding
 |         |  |  +-------------+       |      |  |   North
 v         |  |     |      |   |       |      |  |   +
@@ -243,18 +248,22 @@ destinations south of the node based on SPF calculation, default route, and
 potential disaggregated routes.
 </t>
 
-<t>RIFT combines the advantage of both link-state and distance vector:
+<t>RIFT combines the advantage of both link-state and distance-vector:
 </t>
 <ul>
             <li>Fastest possible convergence</li>
             <li>Automatic detection of topology</li>
-            <li>Minimal routes/info on tors</li>
+            <li>Minimal routes/info on Top-of-Rack (ToR) switches, aka leaf nodes</li>
             <li>High degree of ECMP</li>
             <li>Fast de-commissioning of nodes</li>
-            <li>Maximum Propagation speed with flexible prefixes in an update</li>
+            <li>Maximum propagation speed with flexible prefixes in an update</li>
 </ul>
 
-<t>And RIFT eliminates the disadvantages of link-state or distance vector:
+<t>So there are two types of link-state database which are "north representation" North Topology Information Elements (N-TIEs) and "south representation" South Topology Information Elements (S-TIEs). The N-TIEs contain a link-state topology
+description of lower levels and S-TIEs carry simply default routes for the lower
+levels.
+</t>
+<t>RIFT also eliminates major disadvantages of link-state and distance-vector with:
 </t>
 
     <t>
@@ -264,39 +273,39 @@ potential disaggregated routes.
         </ul><t>
     </t>
 
-
-<t>So there are two types of link-state database which are "north representation" North Topology Information Elements (N-TIEs) and "south representation" South Topology Information Elements (S-TIEs). The N-TIEs contain a link-state topology
-description of lower levels and S-TIEs carry simply default routes for the lower
-levels.
+<t>To achieve this, RIFT builds on the art of IGPs, not only OSPF and IS-IS but also MANET and IoT, to provide unique features:
 </t>
+<ul>
+            <li>Automatic (positive or negative) route disaggregation of northwards routes upon fallen leaves</li>
+            <li>Recursive operation in the case of negative route disaggregation </li>
+            <li>Anisotropic routing that extends a principle seen in <xref target='RFC6550'>RPL</xref> to wide superspines</li>
+            <li>Optimal Flooding Reduction that derives from the concept of a "multipoint relay" (MPR) found in <xref target='RFC3626'>OLSR</xref> and
+            balances the flooding load over northbound links and nodes.</li>
+        </ul>
 
-<t>There are more advantages unique to RIFT listed below which could be
-understood if you read the details of <xref target='I-D.ietf-rift-rift'>RIFT</xref>.
+<t>Additional advantages that are unique to RIFT are listed below, the details of which can be found in <xref target='I-D.ietf-rift-rift'>RIFT</xref>.
 </t>
 <ul>
             <li>True ZTP</li>
             <li>Minimal blast radius on failures</li>
-            <li>Can utilize all paths through fabric without looping</li>
-            <li>Automatic disaggregation on failures</li>
+            <li>Can utilize all Paths through fabric without looping</li>
             <li>Simple leaf implementation that can scale down to servers</li>
             <li>Key-Value store</li>
             <li>Horizontal links used for protection only</li>
-            <li>Supports non-equal cost multipath and can replace MC-LAG</li>
-            <li>Optimal flooding reduction and load-balancing</li>
+            <li>Supports non-equal cost multipath (NECMP) and can replace multi-chassis link aggregation group (MLAG or MC-LAG)</li>
 </ul>
 </section>
 
 <section><name>Applicable Topologies</name>
 
 <t>
-Albeit RIFT is specified primarily for "proper" Clos or "fat tree" structures,
-it already supports Points of Delivery (PoD) concepts which are strictly speaking not found in
-original Clos concepts.
+Albeit RIFT is specified primarily for "proper" Clos or Fat Tree topologies,
+the protocol natively supports Points of Delivery (PoD) concepts, which, strictly speaking, are not found in the original Clos concept.
 </t>
 <t>Further, the specification explains and supports operations of multi-plane
-Clos variants where the protocol relies on set of rings to allow the
-reconciliation of topology view of different planes as most desirable solution
-making proper disaggregation viable in case of failures.
+Clos variants where the protocol recommends the use of inter-plane rings at the
+Top-of-Fabric level to allow the reconciliation of topology view of different planes
+to make the negative disaggregation viable in case of failures within a plane.
 These observations hold not only in case of RIFT but also in the generic
 case of dynamic routing on Clos variants with multiple planes and failures
 in bi-sectional bandwidth, especially on the leafs.
@@ -306,27 +315,24 @@ in bi-sectional bandwidth, especially on the leafs.
 <section><name>Horizontal Links</name>
 <t>
 RIFT is not limited to pure Clos divided into PoD and multi-planes but
-supports horizontal links below the top of fabric level. Those links
-are used only as routes of last resort northbound when a spine loses all
+supports horizontal (East-West) links below the top of fabric level. Those links
+are used only for last resort northbound routes when a spine loses all its
 northbound links or cannot compute a default route through them.
 </t>
 
-    <t>A possible configuration is a "ring" of horizontal links
+ <t>A possible configuration is a "ring" of horizontal links
         at a level. In presence of such a "ring" in any level (except Top of Fabric (ToF) level)
     neither North SPF (N-SPF) nor South SPF (S-SPF) will provide a "ring-based protection"
-    scheme since such a computation would have to deal necessarily
-    with breaking of "loops" in Dijkstra sense;
-    an application for which
-    RIFT is not intended.
-    </t>
-    <t> A full-mesh connectivity between nodes
-            on the same level can be employed
-            and that allows N-SPF to provide for
-            any node loosing
-            all its northbound adjacencies (as long as any of the other
-            nodes in the level
-            are northbound connected) to still participate in northbound forwarding.
-    </t>
+ scheme since such a computation would have to deal necessarily
+ with breaking of "loops" in Dijkstra sense;
+ an application for which RIFT is not intended.
+ </t>
+ <t> A full-mesh connectivity between nodes on the same level can be employed
+ and that allows N-SPF to provide for any node loosing
+ all its northbound adjacencies (as long as any of the other
+ nodes in the level are northbound connected) to still participate in northbound
+ forwarding.
+ </t>
 </section>
 
 <section><name>Vertical Shortcuts</name>
@@ -335,7 +341,7 @@ Through relaxations of the specified adjacency forming rules, RIFT implementatio
 proposed by e.g. <xref target='I-D.white-distoptflood'/>. The RIFT specification
 itself does not provide the exact details since the resulting solution suffers from
 either much larger blast radius with increased flooding volumes or
-in case of maximum aggregation routing bow-tie problems.
+in case of maximum aggregation routing, bow-tie problems.
 </t>
 </section>
 
@@ -345,11 +351,11 @@ RIFT is an anisotropic routing protocol, meaning that it has a sense of directio
 </t>
 <ul>
 <li>
-Northbound, RIFT operates as a link-state IGP, whereby the control packets are reflooded first all the way north and only interpreted later. All the individual fine grained routes are advertised.
+Northbound, RIFT operates as a link-state protocol, whereby the control packets are reflooded first all the way north and only interpreted later. All the individual fine grained routes are advertised.
 </li>
 <li>
   <t>
-  Southbound, RIFT operates as a distance vector IGP, whereby the control packets are flooded only one hop, interpreted, and the consequence of that computation is what gets flooded one more hop south. In the most common use-cases, a ToF node can reach most of the prefixes in the fabric. If that is the case, the ToF node advertises the fabric default and disaggregates the prefixes that it cannot reach. On the other hand, a ToF node that can reach only a small subset of the prefixes in the fabric will preferably advertise those prefixes and refrain from aggregating.
+  Southbound, RIFT operates as a distance-vector protocol, whereby the control packets are flooded only one-hop, interpreted, and the consequence of that computation is what gets flooded one more hop south. In the most common use-cases, a ToF node can reach most of the prefixes in the fabric. If that is the case, the ToF node advertises the fabric default and disaggregates the prefixes that it cannot reach. On the other hand, a ToF node that can reach only a small subset of the prefixes in the fabric will preferably advertise those prefixes and refrain from aggregating.
   </t>
   <t>
   In the general case, what gets advertised south is in more details:
@@ -363,7 +369,7 @@ Northbound, RIFT operates as a link-state IGP, whereby the control packets are r
   </li>
   </ol>
 </li>
-<li>East-west routing can optionally be used, with specific restrictions. It is useful in particular when a sibling has access to the fabric default but this node does not.
+<li>East-West routing can optionally be used, with specific restrictions. It is used when a sibling has access to the fabric default but this node does not.
 </li>
 </ul>
   <t>
@@ -406,8 +412,7 @@ content producers (server farms connection via DC fabrics) but in
 proximity to content consumers as well.
 Consumers are often clustered in metro areas with their own network
 architectures that can benefit
-from simplified, regular Clos structures and hence
-RIFT.
+from simplified, regular Clos structures and hence from RIFT.
 
 </t>
 </section>
@@ -419,7 +424,7 @@ either Clos or its isomorphic equivalents. The
 Clos can grow rather high with many floors. That presents a challenge
 for traditional routing protocols (except BGP and by now largely
 phased-out PNNI) which do not support
-an arbitrary number of levels which RIFT does naturally. Moreover, due to the limited sizes of forwarding tables in network elements of building cabling，the minimum FIB size RIFT maintains under normal conditions is cost-effective in terms of hardware and operational costs.
+an arbitrary number of levels which RIFT does naturally. Moreover, due to the limited sizes of forwarding tables in network elements of building cabling, the minimum FIB size RIFT maintains under normal conditions is cost-effective in terms of hardware and operational costs.
 
 
 </t>
@@ -442,7 +447,7 @@ conceivable.
 <section><name>CloudCO</name>
 <t>
 The Cloud Central Office (CloudCO) is a new stage of telecom Central Office. It takes the advantage of Software Defined Networking (SDN) and Network Function Virtualization (NFV) in conjunction with general purpose hardware to optimize current networks.
-The following figure illustrates this architecture at a high level. It describes a single instance or macro-node of cloud CO. An Access I/O module faces a Cloud CO access node, and the Customer Premises Equipments (CPEs) behind it. A Network I/O module is facing the core network. The two I/O modules are interconnected by a leaf and spine fabric. <xref target='TR-384'/>
+The following figure illustrates this architecture at a high level. It describes a single instance or macro-node of cloud CO that provides a number of Value Added Services (VAS), a Broadband Access Abstraction (BAA), and virtualized nerwork services. An Access I/O module faces a Cloud CO access node, and the Customer Premises Equipments (CPEs) behind it. A Network I/O module is facing the core network. The two I/O modules are interconnected by a leaf and spine fabric <xref target='TR-384'/>.
 </t>
     <figure align='center' anchor='pic-CloudCO'><name>An example of CloudCO architecture</name>
         <artwork align='center'><![CDATA[
@@ -499,7 +504,7 @@ The Spine-Leaf architecture deployed inside CloudCO meets the network requiremen
 
 </section>
 
-<section anchor='opex'><name>Deployment Considerations</name>
+<section anchor='opex'><name>Operational Considerations</name>
 
 <t>
 RIFT presents the opportunity for organizations building and operating
@@ -550,7 +555,8 @@ such as automatic provisioning of basic overlay services or automatic key
 roll-overs over whole fabrics.
 </li>
 <li>
-RIFT is designed for minimum delay in case of prefix mobility on the fabric.
+RIFT is designed for minimum delay in case of prefix mobility on the fabric. In
+conjunction with <xref target='RFC8505'/>, RIFT can differentiate anycast advertisements from mobility events and retain only the most recent advertisement in the latter case.
 </li>
 <li>
 Many further operational and design points collected over many years of
@@ -680,26 +686,31 @@ Prefix111          Prefix112     Prefix121          Prefix122
     </section>
 
 <section><name>Zero Touch Provisioning (ZTP)</name>
-<t>Each RIFT node may operate in zero touch provisioning (ZTP) mode. It has no
-configuration (unless it is a ToF at the top of the topology or it is
-    desired to confine it to leaf role w/o leaf-2-leaf procedures). In such case RIFT will
-fully configure the node's level after it is attached to the topology.
+<t>
+RIFT is designed to require an arch minimal configuration to simplify its operation and avoid human errors; based on that minimal information, Zero Touch Provisioning (ZTP) autoconfigures the key operational parameters of all the RIFT nodes, that is, on the one hand, the SystemID of the node that must be unique in the RIFT network, and on the other hand the level of the node in the Fat Tree, which determines which peers are northwards "parents" and which are southwards "children".
+</t>
+<t>
+ZTP is always on, but its decisions can be overridden when a network administrator prefers to impose its own configuration. In that case, it is the responsibility of the administrator to ensure that the configured parameters are correct,
+IOW that the SystemID of each node is unique, and that the administratively set levels truly reflect the relative position of the nodes in the fabric. It is
+recommended to let ZTP configure the network, and when not, it is recommended to
+configure the level of all the nodes but those that are forced as leaves to avoid an undesirable interaction between ZTP and the manual configuration.
 </t>
 
-<t>The most important component for ZTP is the automatic level derivation procedure.
-All the ToF nodes are explicitly marked with TOP_OF_FABRIC flag which are
-initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
+<t>ZTP requires that the administrator points out the Top-of-Fabric (ToF) nodes to set the baseline from which the fabric topology is derived. The Top-of-Fabric nodes are configured with TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
 The derivation of the level of each node happens then based on Link Information Elements (LIEs) received from its
-neighbors whereas each node (with possibly exceptions of configured leafs) tries to
+neighbors whereas each node (with possibly exceptions of configured leaves) tries to
 attach at the highest possible point in the fabric. This guarantees that even if the diffusion front reaches a
     node from "below" faster
 than from "above", it will greedily abandon already negotiated level derived from nodes
 topologically below it and properly peer with nodes above.
 </t>
+<t>
+A RIFT node may also be configured to confine it to the leaf role with the LEAF_ONLY flag. A leaf node can also be configured to support leaf-2-leaf procedures with the LEAF_2_LEAF flag. In either case the node cannot be TOP_OF_FABRIC and its level cannot be configured. RIFT will fully configure the node's level after it is attached to the topology and ensure that the node is at the "bottom of the hierarchy" (southernmost).
+</t>
 </section>
 
 <section><name>Mis-cabling Examples</name>
-    <figure align='center' anchor='single-plane-miscabling'><name>A single plane mis-cabling example</name>
+    <figure align='center' anchor='single-plane-mis-cabling'><name>A single plane mis-cabling example</name>
         <artwork align='center'><![CDATA[
   +----------------+              +-----------------+
   |     ToF21      |       +------+      ToF22      |   LEVEL 2
@@ -725,17 +736,17 @@ topologically below it and properly peer with nodes above.
             ]]></artwork>
         </figure>
 
-    <t><xref target='single-plane-miscabling'/> shows a single plane mis-cabling example. It's a perfect fat tree fabric except link-M connecting Leaf112 to ToF22.
+    <t><xref target='single-plane-mis-cabling'/> shows a single plane mis-cabling example. It's a perfect Fat Tree fabric except link-M connecting Leaf112 to ToF22.
     </t>
 
-    <t>The RIFT control protocol can discover the physical links automatically and be able to detect cabling that violates fat tree topology constraints.
+    <t>The RIFT control protocol can discover the physical links automatically and be able to detect cabling that violates Fat Tree topology constraints.
         It reacts accordingly to such mis-cabling attempts, at a minimum preventing adjacencies between nodes from being formed and traffic from being forwarded on those mis-cabled links.
         Leaf112 will in such scenario use link-M to derive its level (unless it is leaf) and can report links to Spine111 and Spine112 as mis-cabled unless the implementations
         allows horizontal links.
     </t>
-   <t><xref target='multi-plane-miscabling'/> shows a multiple plane mis-cabling example. Since Leaf112 and Spine121 belong to two different PoDs, the adjacency between Leaf112 and Spine121 can not be formed. link-W would be detected and prevented.
+   <t><xref target='multi-plane-mis-cabling'/> shows a multiple plane mis-cabling example. Since Leaf112 and Spine121 belong to two different PoDs, the adjacency between Leaf112 and Spine121 can not be formed. link-W would be detected and prevented.
     </t>
-    <figure align='center' anchor='multi-plane-miscabling'><name>A multiple plane mis-cabling example</name>
+    <figure align='center' anchor='multi-plane-mis-cabling'><name>A multiple plane mis-cabling example</name>
         <artwork align='center'><![CDATA[
  +-------+    +-------+           +-------+    +-------+
  |ToF  A1|    |ToF  A2|           |ToF  B1|    |ToF  B2| LEVEL 2
@@ -967,30 +978,30 @@ X    X  +------+     |                +------+     |
 
     <figure align='center' anchor='IPV4-o-IPV6'><name>IPv4 over IPv6</name>
         <artwork align='center'><![CDATA[
-           +-----+        +-----+
-+---+---+  | ToF |        | ToF |
-    ^      +--+--+        +-----+
-    |      |  |           |     |
-    |      |  +-------------+   |
-    |      |     +--------+ |   |
-    +      |     |          |   |
-   V6      +-----+        +-+---+
-Forwarding |Spine|        |Spine|
-    +      +--+--+        +-----+
-    |      |  |           |     |
-    |      |  +-------------+   |
-    |      |     +--------+ |   |
-    |      |     |          |   |
-    v      +-----+        +-+---+
-+---+---+  |Leaf |        | Leaf|
-           +--+--+        +--+--+
-              |              |
- IPv4 prefixes|              |IPv4 prefixes
-              |              |
-          +---+----+     +---+----+
-          |   V4   |     |   V4   |
-          | subnet |     | subnet |
-          +--------+     +--------+
+              +-----+        +-----+
+   +---+---+  | ToF |        | ToF |
+       ^      +--+--+        +-----+
+       |      |  |           |     |
+       |      |  +-------------+   |
+       |      |     +--------+ |   |
+       +      |     |          |   |
+      V6      +-----+        +-+---+
+   Forwarding |Spine|        |Spine|
+       +      +--+--+        +-----+
+       |      |  |           |     |
+       |      |  +-------------+   |
+       |      |     +--------+ |   |
+       |      |     |          |   |
+       v      +-----+        +-+---+
+   +---+---+  |Leaf |        | Leaf|
+              +--+--+        +--+--+
+                 |              |
+    IPv4 prefixes|              |IPv4 prefixes
+                 |              |
+             +---+----+     +---+----+
+             |   V4   |     |   V4   |
+             | subnet |     | subnet |
+             +--------+     +--------+
             ]]></artwork>
         </figure>
 
@@ -1191,23 +1202,23 @@ PrefixA      PrefixB         PrefixA    | PrefixC
 <t>The design of RIFT inherits from RPL <xref target='RFC6550'/> the anisotropic design of a default route upwards (northwards); it also inherits the capability to inject external host routes at the Leaf level using Wireless ND (WiND) <xref target='RFC8505'/><xref target='RFC8928'/> between a RIFT-agnostic host and a RIFT router. Both the RPL and the RIFT protocols are meant for large scale, and WiND enables device mobility at the edge the same way in both cases.</t>
 
 
- 
+
 <t>The main difference between RIFT and RPL is that with RPL, there’s a single Root, whereas RIFT has many ToF nodes. The adds huge capabilities for leaf-2-leaf ECMP paths, but additional complexity with the need to disaggregate. Also RIFT uses Link State flooding northwards, and is not designed for low-power operation.</t>
 
 
- 
+
 <t>Still nothing prevents that the IP devices connected at the Leaf are IoT (Internet of Things) devices, which typically expose their address using WiND – which is an upgrade from 6LoWPAN ND <xref target='RFC6775'/>.</t>
 
 
- 
+
 <t>A network that serves high speed/ high power IoT devices should typically provide deterministic capabilities for applications such as high speed control loops or movement detection. The Fat Tree is highly reliable, and in normal condition provides an equilatent multipath operation; but the ECMP doesn’t provide hard guarantees for either delivery or latency. As long as the fabric is non-blocking the result is the same; but there can be load unbalances resulting in incast and possibly congestion loss that will prevent the delivery within bounded latency.</t>
 
 
- 
+
 <t>This could be alleviated with Packet Replication, Elimination and Reordering (PREOF) <xref target='RFC8655'/> leaf-2-leaf but PREOF is hard to provide at the scale of all flows,  and the replication may increase the probability of the overload that it attempts to solve.</t>
 
 
- 
+
 <t>Note that the load balancing is not RIFT’s problem, but it is key to serve IoT adequately.</t>
 
 </section>
@@ -1331,6 +1342,7 @@ PrefixA      PrefixB         PrefixA    | PrefixC
 
 </reference>
 
+<xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3626.xml'/>
 <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5905.xml'/>
 <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8200.xml'/>
 <xi:include href='https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8505.xml'/>
