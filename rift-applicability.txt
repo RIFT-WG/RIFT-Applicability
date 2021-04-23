@@ -125,7 +125,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    highlights the operational simplicity of the technology compared to
    traditional routing solutions.  It also documents special
    considerations when RIFT is used with or without overlays and/or
-   controllers, and how RIFT corrects topology miscablings and/or node
+   controllers, and how RIFT corrects topology mis-cablings and/or node
    and link failures.
 
 2.  Problem Statement of Routing in Modern IP Fabric Fat Tree Networks
@@ -142,16 +142,17 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    *  They tend to need extensive configuration or provisioning during
       bring up and re-dimensioning.
 
-   *  all nodes including spine and leaf nodes learn the entire network
+   *  All nodes including spine and leaf nodes learn the entire network
       topology and routing information, which is in fact, not needed on
       the leaf nodes during normal operation.
 
-   *  significant link-state PDUs (LSPs) flooding duplication between
+   *  Significant link-state PDUs (LSPs) flooding duplication between
       spine nodes and leaf nodes occurs during network bring up and
-      topology updates.  This consumes both CPU and link bandwidth
-      resources which prevents the use of cheaper hardware at the lower
-      levels (leaf and spine) and reduces the scalability and
-      reactivity.of the network.
+      topology updates.
+
+   *  This consumes both CPU and link bandwidth resources which prevents
+      the use of cheaper hardware at the lower levels (leaf and spine)
+      and reduces the scalability and reactivity.of the network.
 
 3.  Applicability of RIFT to Clos IP Fabrics
 
@@ -160,7 +161,6 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    [ISO10589-Second-Edition] link-state protocols.  The sections of RIFT
    [RIFT] outline the requirements of routing in IP fabrics and RIFT
    protocol concepts.
-
 
 
 
@@ -290,24 +290,24 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
    *  Horizontal links used for protection only
 
-   *  Supports Non-Equal Cost Multipath (NECMP) and can replace multi-
+   *  Supports non-equal cost multipath (NECMP) and can replace multi-
       chassis link aggregation group (MLAG or MC-LAG)
 
 3.2.  Applicable Topologies
 
    Albeit RIFT is specified primarily for "proper" Clos or Fat Tree
-   topologies, the protocol natively supports Point-of-Distribution
-   (PoD) concepts, which, strictly speaking, are not found in the
-   original Clos concept.
+   topologies, the protocol natively supports Points of Delivery (PoD)
+   concepts, which, strictly speaking, are not found in the original
+   Clos concept.
 
    Further, the specification explains and supports operations of multi-
    plane Clos variants where the protocol recommends the use of inter-
    plane rings at the Top-of-Fabric level to allow the reconciliation of
    topology view of different planes to make the negative disaggregation
-   viable in case of failures within a plane.  Those observations hold
-   not only in case of RIFT but in the generic case of dynamic routing
-   on Clos variants with multiple planes and failures in bi-sectional
-   bandwidth, especially on the leafs.
+   viable in case of failures within a plane.  These observations hold
+   not only in case of RIFT but also in the generic case of dynamic
+   routing on Clos variants with multiple planes and failures in bi-
+   sectional bandwidth, especially on the leafs.
 
 3.2.1.  Horizontal Links
 
@@ -458,9 +458,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    protocols (except BGP and by now largely phased-out PNNI) which do
    not support an arbitrary number of levels which RIFT does naturally.
    Moreover, due to the limited sizes of forwarding tables in network
-   elements of building cabling&#65292;the minimum FIB size RIFT
-   maintains under normal conditions is cost-effective in terms of
-   hardware and operational costs.
+   elements of building cabling, the minimum FIB size RIFT maintains
+   under normal conditions is cost-effective in terms of hardware and
+   operational costs.
 
 3.3.4.  Internal Router Switching Fabrics
 
@@ -680,13 +680,13 @@ Internet-Draft        RIFT Applicability Statement            April 2021
                    |  | | |            | |  | +
                    |  | | |            | |  | linkTS8
      +-------------+  | +-+linkTS3+-+  | |  | +-------------+
-     |                |   |         |  | |  +                |
-     |    +----------------------------+ |  linkTS7          |
-     |    |           |   |         +    +  +                |
-     |    |           |   +-------+linkTS4+------------+     |
-     |    |           |             +    +  |          |     |
-     |    |           |     +------------+--+          |     |
-     |    |           |     |       |  linkTS6         |     |
+     |                |   |         |  | |  +               |
+     |    +----------------------------+ |  linkTS7         |
+     |    |           |   |         +    +  +               |
+     |    |           |   +-------+linkTS4+------------+    |
+     |    |           |             +    +  |          |    |
+     |    |           |     +------------+--+          |    |
+     |    |           |     |       |  linkTS6         |    |
    +-+----+-+         +-----+--+   ++--------+       +-+----+-+
    |Spine111|         |Spine112|   |Spine121 |       |Spine122| LEVEL 1
    +-+---+--+         +----+---+   +-+---+---+       +-+---+--+
@@ -748,7 +748,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    +-+----+-+         +-+----+-+    ++-------+        +-+-----++
    |Spine111|         |Spine112|    |Spine121|        |Spine122| LEVEL 1
    +-+---+--+         ++----+--+    +-+---+--+        +-+---+--+
-     |    |           |    |         |    |  |                |
+     |   |             |    |         |   |             |   |
      +   +---------------+  |         +   +---+linkSL6+---+ +
      linkSL1           | |  |      linkSL5              | | linkSL8
      +   +--+linkSL3+--+ |  |         +   +---+linkSL7+-+ | +
@@ -1182,21 +1182,21 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    free.
 
                             +-----+        +-----+
-              +---+---+  | ToF |        | ToF |
+                 +---+---+  | ToF |        | ToF |
                      ^      +--+--+        +-----+
                      |      |  |           |     |
                      |      |  +-------------+   |
                      |      |     +--------+ |   |
-                  +      |     |          |   |
+                     +      |     |          |   |
                     V6      +-----+        +-+---+
-              Forwarding |Spine|        |Spine|
-                  +      +--+--+        +-----+
+                 Forwarding |Spine|        |Spine|
+                     +      +--+--+        +-----+
                      |      |  |           |     |
                      |      |  +-------------+   |
                      |      |     +--------+ |   |
                      |      |     |          |   |
                      v      +-----+        +-+---+
-              +---+---+  |Leaf |        | Leaf|
+                 +---+---+  |Leaf |        | Leaf|
                             +--+--+        +--+--+
                                |              |
                   IPv4 prefixes|              |IPv4 prefixes
@@ -1692,7 +1692,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
               Communication Environments", IEEE International Parallel &
               Distributed Processing Symposium, 2011.
 
-   [FATTREE]  Leiserson, C. E., "Fat Trees: Universal Networks for
+   [FATTREE]  Leiserson, C. E., "Fat-Trees: Universal Networks for
               Hardware-Efficient Supercomputing", 1985.
 
    [RFC3626]  Clausen, T., Ed. and P. Jacquet, Ed., "Optimized Link
