@@ -146,7 +146,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
       topology and routing information, which is in fact, not needed on
       the leaf nodes during normal operation.
 
-   *  significant Link-State PDUs (LSPs) flooding duplication between
+   *  significant link-state PDUs (LSPs) flooding duplication between
       spine nodes and leaf nodes occurs during network bring up and
       topology updates.  This consumes both CPU and link bandwidth
       resources which prevents the use of cheaper hardware at the lower
@@ -175,22 +175,22 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    RIFT is a dynamic routing protocol that is specifically tailored for
    use in Clos and Fat Tree network topologies.  A core property of RIFT
    is that its operation is sensitive to the structure of the fabric -
-   it is anisotropic.  RIFT acts as a Link-State protocol when "pointing
+   it is anisotropic.  RIFT acts as a link-state protocol when "pointing
    north" - advertising southwards routes to northwards peer routers
    (parents) through flooding and database synchronization- but operates
-   hop-by-hop like a Distance-Vector protocol when "pointing south" -
+   hop-by-hop like a distance-vector protocol when "pointing south" -
    typically advertising a fabric default route directed towards the
    superspine to southwards peer routers (children) -.
 
-   RIFT floods flat Link-State information northbound only so that each
+   RIFT floods flat link-state information northbound only so that each
    level obtains the full topology of levels south of it.  That
    information is never flooded east-west or back south again.  So a top
    tier node has full set of prefixes from the Shortest Path First (SPF)
    calculation.
 
    In the southbound direction, the protocol operates like a "fully
-   summarizing, unidirectional" path vector protocol or rather a
-   distance vector with implicit split horizon.  Routing information,
+   summarizing, unidirectional" path-vector protocol or rather a
+   distance-vector with implicit split horizon.  Routing information,
    normally just the default route, propagates one hop south and is 're-
    advertised' by nodes at next lower level.
 
@@ -201,7 +201,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
       +         |     |  |  +-------------------------+   |
       Distance  |  +-------------------+ |  |      |  |   |
       Vector    |  |  |  |               |  |      |  |   +
-      South     |  |  |  |      +--------+  |      |  |   Link-state
+      South     |  |  |  |      +--------+  |      |  |   Link-State
       +         |  |  |  |      |           |      |  |   Flooding
       |         |  |  +-------------+       |      |  |   North
       v         |  |     |      |   |       |      |  |   +
@@ -230,22 +230,22 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    all destinations south of the node based on SPF calculation, default
    route, and potential disaggregated routes.
 
-   RIFT combines the advantage of both Link-State and Distance-Vector:
+   RIFT combines the advantage of both link-state and distance-vector:
 
-   *  Fastest Possible Convergence
+   *  Fastest possible convergence
 
-   *  Automatic Detection of Topology
+   *  Automatic detection of topology
 
-   *  Minimal Routes/Info on Top-of-Rack (ToR) switches, aka leaf nodes
+   *  Minimal routes/info on Top-of-Rack (ToR) switches, aka leaf nodes
 
-   *  High Degree of ECMP
+   *  High degree of ECMP
 
-   *  Fast De-commissioning of Nodes
+   *  Fast de-commissioning of nodes
 
-   *  Maximum Propagation Speed with Flexible Prefixes in an Update
+   *  Maximum propagation speed with flexible prefixes in an update
 
-   And RIFT eliminates the disadvantages of Link-State or Distance-
-   Vector:
+   And RIFT eliminates the disadvantages of link-state or distance-
+   vector:
 
 
    *  Reduced and balanced flooding
@@ -273,7 +273,7 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
    *  True ZTP
 
-   *  Minimal Blast Radius on Failures
+   *  Minimal blast radius on failures
 
 
 
@@ -282,13 +282,13 @@ Wei, et al.              Expires 25 October 2021                [Page 5]
 Internet-Draft        RIFT Applicability Statement            April 2021
 
 
-   *  Can Utilize All Paths Through Fabric Without Looping
+   *  Can utilize all Paths through fabric without looping
 
-   *  Simple Leaf Implementation that Can Scale Down to Servers
+   *  Simple leaf implementation that can scale down to servers
 
-   *  Key-Value Store
+   *  Key-Value store
 
-   *  Horizontal Links Used for Protection Only
+   *  Horizontal links used for protection only
 
    *  Supports Non-Equal Cost Multipath (NECMP) and can replace multi-
       chassis link aggregation group (MLAG or MC-LAG)
@@ -354,12 +354,12 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    of direction (northbound, southbound, east-west) and that it operates
    differently depending on the direction.
 
-   *  Northbound, RIFT operates as a Link-State protocol, whereby the
+   *  Northbound, RIFT operates as a link-state protocol, whereby the
       control packets are reflooded first all the way north and only
       interpreted later.  All the individual fine grained routes are
       advertised.
 
-   *  Southbound, RIFT operates as a Distance-Vector protocol, whereby
+   *  Southbound, RIFT operates as a distance-vector protocol, whereby
       the control packets are flooded only one-hop, interpreted, and the
       consequence of that computation is what gets flooded one more hop
       south.  In the most common use-cases, a ToF node can reach most of

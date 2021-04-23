@@ -179,7 +179,7 @@ When applied to Fat Tree topologies:
             <li>all nodes including spine and leaf nodes learn the entire network topology and
             routing information, which is in fact, not needed on the leaf nodes during normal
                 operation.</li>
-            <li>significant Link-State PDUs (LSPs) flooding duplication between
+            <li>significant link-state PDUs (LSPs) flooding duplication between
             spine nodes and leaf nodes occurs during network bring up and topology updates. This
             consumes both  CPU and link bandwidth resources which prevents the
             use of cheaper hardware at the lower levels (leaf and spine) and reduces the scalability and reactivity.of the network.</li>
@@ -198,21 +198,21 @@ and <xref target='ISO10589-Second-Edition'>IS-IS</xref> link-state protocols. Th
 <section><name>Overview of RIFT</name>
 <t>RIFT is a dynamic routing protocol that is specifically tailored for use in Clos and Fat Tree network topologies. A core property of RIFT is that its operation is
 sensitive to the structure of the fabric - it is anisotropic. RIFT
-acts as a Link-State protocol when "pointing north" - advertising southwards
+acts as a link-state protocol when "pointing north" - advertising southwards
 routes to northwards peer routers (parents) through flooding and database synchronization- but
-operates hop-by-hop like a Distance-Vector protocol
+operates hop-by-hop like a distance-vector protocol
 when "pointing south" - typically advertising a fabric default route directed
 towards the superspine to southwards peer routers (children) -.
 </t>
 
-<t>RIFT floods flat Link-State information northbound only so that each level
+<t>RIFT floods flat link-state information northbound only so that each level
 obtains the full topology of levels south of it. That information is never flooded
 east-west or back south again. So a top tier node has full set of prefixes from
 the Shortest Path First (SPF) calculation.
 </t>
 
 <t>In the southbound direction, the protocol operates like a "fully summarizing,
-unidirectional" path vector protocol or rather a distance vector with implicit split horizon. Routing information, normally just the default route, propagates one hop south and is 're-advertised' by nodes at next lower level.
+unidirectional" path-vector protocol or rather a distance-vector with implicit split horizon. Routing information, normally just the default route, propagates one hop south and is 're-advertised' by nodes at next lower level.
 </t>
 
      <figure align='center' anchor='pic-rift'><name>Rift overview</name>
@@ -224,7 +224,7 @@ unidirectional" path vector protocol or rather a distance vector with implicit s
 +         |     |  |  +-------------------------+   |
 Distance  |  +-------------------+ |  |      |  |   |
 Vector    |  |  |  |               |  |      |  |   +
-South     |  |  |  |      +--------+  |      |  |   Link-state
+South     |  |  |  |      +--------+  |      |  |   Link-State
 +         |  |  |  |      |           |      |  |   Flooding
 |         |  |  +-------------+       |      |  |   North
 v         |  |     |      |   |       |      |  |   +
@@ -247,18 +247,18 @@ destinations south of the node based on SPF calculation, default route, and
 potential disaggregated routes.
 </t>
 
-<t>RIFT combines the advantage of both Link-State and Distance-Vector:
+<t>RIFT combines the advantage of both link-state and distance-vector:
 </t>
 <ul>
-            <li>Fastest Possible Convergence</li>
-            <li>Automatic Detection of Topology</li>
-            <li>Minimal Routes/Info on Top-of-Rack (ToR) switches, aka leaf nodes</li>
-            <li>High Degree of ECMP</li>
-            <li>Fast De-commissioning of Nodes</li>
-            <li>Maximum Propagation Speed with Flexible Prefixes in an Update</li>
+            <li>Fastest possible convergence</li>
+            <li>Automatic detection of topology</li>
+            <li>Minimal routes/info on Top-of-Rack (ToR) switches, aka leaf nodes</li>
+            <li>High degree of ECMP</li>
+            <li>Fast de-commissioning of nodes</li>
+            <li>Maximum propagation speed with flexible prefixes in an update</li>
 </ul>
 
-<t>And RIFT eliminates the disadvantages of Link-State or Distance-Vector:
+<t>And RIFT eliminates the disadvantages of link-state or distance-vector:
 </t>
 
     <t>
@@ -282,11 +282,11 @@ potential disaggregated routes.
 </t>
 <ul>
             <li>True ZTP</li>
-            <li>Minimal Blast Radius on Failures</li>
-            <li>Can Utilize All Paths Through Fabric Without Looping</li>
-            <li>Simple Leaf Implementation that Can Scale Down to Servers</li>
-            <li>Key-Value Store</li>
-            <li>Horizontal Links Used for Protection Only</li>
+            <li>Minimal blast radius on failures</li>
+            <li>Can utilize all Paths through fabric without looping</li>
+            <li>Simple leaf implementation that can scale down to servers</li>
+            <li>Key-Value store</li>
+            <li>Horizontal links used for protection only</li>
             <li>Supports Non-Equal Cost Multipath (NECMP) and can replace multi-chassis link aggregation group (MLAG or MC-LAG)</li>
 </ul>
 </section>
@@ -346,11 +346,11 @@ RIFT is an anisotropic routing protocol, meaning that it has a sense of directio
 </t>
 <ul>
 <li>
-Northbound, RIFT operates as a Link-State protocol, whereby the control packets are reflooded first all the way north and only interpreted later. All the individual fine grained routes are advertised.
+Northbound, RIFT operates as a link-state protocol, whereby the control packets are reflooded first all the way north and only interpreted later. All the individual fine grained routes are advertised.
 </li>
 <li>
   <t>
-  Southbound, RIFT operates as a Distance-Vector protocol, whereby the control packets are flooded only one-hop, interpreted, and the consequence of that computation is what gets flooded one more hop south. In the most common use-cases, a ToF node can reach most of the prefixes in the fabric. If that is the case, the ToF node advertises the fabric default and disaggregates the prefixes that it cannot reach. On the other hand, a ToF node that can reach only a small subset of the prefixes in the fabric will preferably advertise those prefixes and refrain from aggregating.
+  Southbound, RIFT operates as a distance-vector protocol, whereby the control packets are flooded only one-hop, interpreted, and the consequence of that computation is what gets flooded one more hop south. In the most common use-cases, a ToF node can reach most of the prefixes in the fabric. If that is the case, the ToF node advertises the fabric default and disaggregates the prefixes that it cannot reach. On the other hand, a ToF node that can reach only a small subset of the prefixes in the fabric will preferably advertise those prefixes and refrain from aggregating.
   </t>
   <t>
   In the general case, what gets advertised south is in more details:
