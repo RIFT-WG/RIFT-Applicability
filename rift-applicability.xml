@@ -203,7 +203,7 @@ acts as a link-state protocol when "pointing north" - advertising southwards
 routes to northwards peer routers (parents) through flooding and database synchronization- but
 operates hop-by-hop like a distance-vector protocol
 when "pointing south" - typically advertising a fabric default route directed
-towards the superspine to southwards peer routers (children) -.
+towards the Top of Fabric (ToF, aka superspine) to southwards peer routers (children) -.
 </t>
 
 <t>RIFT floods flat link-state information northbound only so that each level
@@ -687,11 +687,11 @@ Prefix111          Prefix112     Prefix121          Prefix122
 
 <section><name>Zero Touch Provisioning (ZTP)</name>
 <t>
-RIFT is designed to require an arch minimal configuration to simplify its operation and avoid human errors; based on that minimal information, Zero Touch Provisioning (ZTP) autoconfigures the key operational parameters of all the RIFT nodes, that is, on the one hand, the SystemID of the node that must be unique in the RIFT network, and on the other hand the level of the node in the Fat Tree, which determines which peers are northwards "parents" and which are southwards "children".
+RIFT is designed to require a very minimal configuration to simplify its operation and avoid human errors; based on that minimal information, Zero Touch Provisioning (ZTP) autoconfigures the key operational parameters of all the RIFT nodes, that is, on the one hand, the SystemID of the node that must be unique in the RIFT network, and on the other hand the level of the node in the Fat Tree, which determines which peers are northwards "parents" and which are southwards "children".
 </t>
 <t>
 ZTP is always on, but its decisions can be overridden when a network administrator prefers to impose its own configuration. In that case, it is the responsibility of the administrator to ensure that the configured parameters are correct,
-IOW that the SystemID of each node is unique, and that the administratively set levels truly reflect the relative position of the nodes in the fabric. It is
+in other words that the SystemID of each node is unique, and that the administratively set levels truly reflect the relative position of the nodes in the fabric. It is
 recommended to let ZTP configure the network, and when not, it is recommended to
 configure the level of all the nodes but those that are forced as leaves to avoid an undesirable interaction between ZTP and the manual configuration.
 </t>
@@ -699,8 +699,7 @@ configure the level of all the nodes but those that are forced as leaves to avoi
 <t>ZTP requires that the administrator points out the Top-of-Fabric (ToF) nodes to set the baseline from which the fabric topology is derived. The Top-of-Fabric nodes are configured with TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
 The derivation of the level of each node happens then based on Link Information Elements (LIEs) received from its
 neighbors whereas each node (with possibly exceptions of configured leaves) tries to
-attach at the highest possible point in the fabric. This guarantees that even if the diffusion front reaches a
-    node from "below" faster
+attach at the highest possible point in the fabric. This guarantees that even if the diffusion front reaches a node from "below" faster
 than from "above", it will greedily abandon already negotiated level derived from nodes
 topologically below it and properly peer with nodes above.
 </t>
