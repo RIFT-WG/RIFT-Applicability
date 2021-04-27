@@ -81,6 +81,21 @@
 </address>
 </author>
 
+<author fullname='Pascal Thubert' initials='P.' surname='Thubert'>
+    <organization abbrev='Cisco Systems'>Cisco Systems, Inc</organization>
+    <address>
+       <postal>
+          <street>Building D</street>
+          <street>45 Allee des Ormes - BP1200 </street>
+          <city>MOUGINS - Sophia Antipolis</city>
+          <code>06254</code>
+          <country>FRANCE</country>
+       </postal>
+       <phone>+33 497 23 26 34</phone>
+       <email>pthubert@cisco.com</email>
+    </address>
+</author>
+
 <author fullname='Tom Verhaeg' initials='Tom' surname='Verhaeg'>
 <organization>Juniper Networks</organization>
 <address>
@@ -119,20 +134,7 @@
 </address>
 </author>
 
-  <author fullname='Pascal Thubert' initials='P.' surname='Thubert'>
-      <organization abbrev='Cisco Systems'>Cisco Systems, Inc</organization>
-      <address>
-         <postal>
-            <street>Building D</street>
-            <street>45 Allee des Ormes - BP1200 </street>
-            <city>MOUGINS - Sophia Antipolis</city>
-            <code>06254</code>
-            <country>FRANCE</country>
-         </postal>
-         <phone>+33 497 23 26 34</phone>
-         <email>pthubert@cisco.com</email>
-      </address>
-   </author>
+
 <date/>
 
 <area>Routing</area>
@@ -394,7 +396,7 @@ Northbound, RIFT operates as a link-state protocol, whereby the control packets 
 
 <section><name>Data Center Fabrics</name>
 <t>
-RIFT is largely driven by demands and hence ideally suited for applying in data center (DC) IP fabrics underlay routing, vast majority of which seem to be currently (and
+RIFT is suited for applying in data center (DC) IP fabrics underlay routing, vast majority of which seem to be currently (and
 for
 the foreseeable future)
 Clos architectures. It significantly simplifies operation and deployment
@@ -515,7 +517,7 @@ properties of a dynamic routing on such a substrate:
 
 <ul>
 <li>
-RIFT only foods routing information to the devices that absolutely need it. RIFT design follows minimum blast radius and minimum necessary epistemological scope philosophy which leads to good scaling properties while delivering maximum reactiveness.
+RIFT only floods routing information to the devices that absolutely need it. RIFT design follows minimum blast radius and minimum necessary epistemological scope philosophy which leads to good scaling properties while delivering maximum reactiveness.
 </li>
 <li>
 RIFT allows for extensive Zero Touch Provisioning within the protocol.
