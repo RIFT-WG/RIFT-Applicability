@@ -7,12 +7,12 @@ Internet-Draft                                              Zheng. Zhang
 Intended status: Informational                           ZTE Corporation
 Expires: 28 October 2021                               Dmitry. Afanasiev
                                                                   Yandex
+                                                              P. Thubert
+                                                           Cisco Systems
                                                             Tom. Verhaeg
                                                         Juniper Networks
                                                      Jaroslaw. Kowalczyk
                                                            Orange Polska
-                                                              P. Thubert
-                                                           Cisco Systems
                                                            26 April 2021
 
 
@@ -435,13 +435,13 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 3.3.1.  Data Center Fabrics
 
-   RIFT is largely driven by demands and hence ideally suited for
-   applying in data center (DC) IP fabrics underlay routing, vast
-   majority of which seem to be currently (and for the foreseeable
-   future) Clos architectures.  It significantly simplifies operation
-   and deployment of such fabrics as described in Section 4 for
-   environments compared to extensive proprietary provisioning and
-   operational solutions.
+   RIFT is suited for applying in the data center (DC) IP fabrics
+   underlay routing, vast majority of which seem to be currently (and
+   for the foreseeable future) Clos architectures.  It significantly
+   simplifies operation and deployment of such fabrics as described in
+   Section 4 for environments compared to extensive proprietary
+   provisioning and operational solutions.
+
 
 
 
@@ -569,10 +569,10 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    while achieving many desirable properties of a dynamic routing on
    such a substrate:
 
-   *  RIFT only foods routing information to the devices that absolutely
-      need it.  RIFT design follows minimum blast radius and minimum
-      necessary epistemological scope philosophy which leads to good
-      scaling properties while delivering maximum reactiveness.
+   *  RIFT only floods routing information to the devices that
+      absolutely need it.  RIFT design follows minimum blast radius and
+      minimum necessary epistemological scope philosophy which leads to
+      good scaling properties while delivering maximum reactiveness.
 
    *  RIFT allows for extensive Zero Touch Provisioning within the
       protocol.  In its most extreme version RIFT does not rely on any
@@ -1757,6 +1757,17 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    Email: fl0w@yandex-team.ru
 
 
+   Pascal Thubert
+   Cisco Systems, Inc
+   Building D
+   45 Allee des Ormes - BP1200
+   06254 MOUGINS - Sophia Antipolis
+   France
+
+   Phone: +33 497 23 26 34
+   Email: pthubert@cisco.com
+
+
    Tom Verhaeg
    Juniper Networks
 
@@ -1767,17 +1778,6 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    Orange Polska
 
    Email: jaroslaw.kowalczyk2@orange.com
-
-
-   Pascal Thubert
-   Cisco Systems, Inc
-   Building D
-   45 Allee des Ormes - BP1200
-   06254 MOUGINS - Sophia Antipolis
-   France
-
-   Phone: +33 497 23 26 34
-   Email: pthubert@cisco.com
 
 
 
