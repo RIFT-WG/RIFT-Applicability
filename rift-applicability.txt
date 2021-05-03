@@ -226,7 +226,7 @@ Wei, et al.              Expires 4 November 2021                [Page 4]
 Internet-Draft        RIFT Applicability Statement              May 2021
 
 
-                          Figure 1: Rift overview
+                          Figure 1: RIFT overview
 
    A spine node has only information necessary for its level, which is
    all destinations south of the node based on SPF calculation, default

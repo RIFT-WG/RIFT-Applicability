@@ -231,7 +231,7 @@ the Shortest Path First (SPF) calculation.
 unidirectional" path-vector protocol or rather a distance-vector with implicit split horizon. Routing information, normally just the default route, propagates one hop south and is 're-advertised' by nodes at next lower level.
 </t>
 
-     <figure align='center' anchor='pic-rift'><name>Rift overview</name>
+     <figure align='center' anchor='pic-rift'><name>RIFT overview</name>
         <artwork align='center'><![CDATA[
           +-----------+          +-----------+
           |    ToF    |          |    ToF    |         LEVEL 2
