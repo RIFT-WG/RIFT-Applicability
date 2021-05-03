@@ -5,7 +5,7 @@
 RIFT WG                                                 Yuehua. Wei, Ed.
 Internet-Draft                                              Zheng. Zhang
 Intended status: Informational                           ZTE Corporation
-Expires: 28 October 2021                               Dmitry. Afanasiev
+Expires: 4 November 2021                               Dmitry. Afanasiev
                                                                   Yandex
                                                               P. Thubert
                                                            Cisco Systems
@@ -13,11 +13,11 @@ Expires: 28 October 2021                               Dmitry. Afanasiev
                                                         Juniper Networks
                                                      Jaroslaw. Kowalczyk
                                                            Orange Polska
-                                                           26 April 2021
+                                                              3 May 2021
 
 
                            RIFT Applicability
-                    draft-ietf-rift-applicability-05
+                    draft-ietf-rift-applicability-06
 
 Abstract
 
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 October 2021.
+   This Internet-Draft will expire on 4 November 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 1]
+Wei, et al.              Expires 4 November 2021                [Page 1]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 2]
+Wei, et al.              Expires 4 November 2021                [Page 2]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    7.  Normative References  . . . . . . . . . . . . . . . . . . . .  29
@@ -125,8 +125,8 @@ Internet-Draft        RIFT Applicability Statement            April 2021
    highlights the operational simplicity of the technology compared to
    traditional routing solutions.  It also documents special
    considerations when RIFT is used with or without overlays and/or
-   controllers, and how RIFT corrects topology mis-cablings and/or node
-   and link failures.
+   controllers, and how RIFT identifies topology mis-cablings and
+   reroutes around node and link failures.
 
 2.  Problem Statement of Routing in Modern IP Fabric Fat Tree Networks
 
@@ -146,13 +146,13 @@ Internet-Draft        RIFT Applicability Statement            April 2021
       topology and routing information, which is in fact, not needed on
       the leaf nodes during normal operation.
 
-   *  Significant link-state PDUs (LSPs) flooding duplication between
-      spine nodes and leaf nodes occurs during network bring up and
-      topology updates.
-
-   *  This consumes both CPU and link bandwidth resources which prevents
-      the use of cheaper hardware at the lower levels (leaf and spine)
-      and reduces the scalability and reactivity.of the network.
+   *  They flood significant amounts of duplicate link state information
+      between spine and leaf nodes during topology updates and
+      convergence events, requiring that additional CPU and link
+      bandwidth be consumed.  This may impact the stability and
+      scalability of the fabric, make the fabric less reactive to
+      failures, and prevent the use of cheaper hardware at the lower
+      levels (i.e. spine and leaf nodes).
 
 3.  Applicability of RIFT to Clos IP Fabrics
 
@@ -165,15 +165,15 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 3]
+Wei, et al.              Expires 4 November 2021                [Page 3]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 3.1.  Overview of RIFT
 
-   RIFT is a dynamic routing protocol that is specifically tailored for
-   use in Clos and Fat Tree network topologies.  A core property of RIFT
+   RIFT is a dynamic routing protocol that is tailored for use in Clos,
+   Fat-Tree, and other anisotropic topologies.  A core property of RIFT
    is that its operation is sensitive to the structure of the fabric -
    it is anisotropic.  RIFT acts as a link-state protocol when "pointing
    north" - advertising southwards routes to northwards peer routers
@@ -221,9 +221,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 4]
+Wei, et al.              Expires 4 November 2021                [Page 4]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
                           Figure 1: Rift overview
@@ -277,9 +277,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 5]
+Wei, et al.              Expires 4 November 2021                [Page 5]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    *  Optimal Flooding Reduction that derives from the concept of a
@@ -333,9 +333,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 6]
+Wei, et al.              Expires 4 November 2021                [Page 6]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    A possible configuration is a "ring" of horizontal links at a level.
@@ -389,9 +389,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 7]
+Wei, et al.              Expires 4 November 2021                [Page 7]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
       1.  A fabric default that aggregates all the prefixes that are
@@ -435,19 +435,19 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 3.3.1.  Data Center Fabrics
 
-   RIFT is suited for applying in the data center (DC) IP fabrics
-   underlay routing, vast majority of which seem to be currently (and
-   for the foreseeable future) Clos architectures.  It significantly
-   simplifies operation and deployment of such fabrics as described in
-   Section 4 for environments compared to extensive proprietary
-   provisioning and operational solutions.
+   RIFT is suited for applying in data center (DC) IP fabrics underlay
+   routing, vast majority of which seem to be currently (and for the
+   foreseeable future) Clos architectures.  It significantly simplifies
+   operation and deployment of such fabrics as described in Section 4
+   for environments compared to extensive proprietary provisioning and
+   operational solutions.
 
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 8]
+Wei, et al.              Expires 4 November 2021                [Page 8]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 3.3.2.  Metro Fabrics
@@ -501,9 +501,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021                [Page 9]
+Wei, et al.              Expires 4 November 2021                [Page 9]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
         +---------------------+           +----------------------+
@@ -557,9 +557,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 10]
+Wei, et al.              Expires 4 November 2021               [Page 10]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.  Operational Considerations
@@ -613,9 +613,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 11]
+Wei, et al.              Expires 4 November 2021               [Page 11]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    *  RIFT is designed for minimum delay in case of prefix mobility on
@@ -669,9 +669,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 12]
+Wei, et al.              Expires 4 November 2021               [Page 12]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
                   +--------+          +--------+
@@ -725,9 +725,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 13]
+Wei, et al.              Expires 4 November 2021               [Page 13]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.3.  Black-Holing on Link Failures
@@ -781,9 +781,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 14]
+Wei, et al.              Expires 4 November 2021               [Page 14]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    The packet from leaf111 to prefix122 will not be routed to linkTS1 or
@@ -837,9 +837,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 15]
+Wei, et al.              Expires 4 November 2021               [Page 15]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.5.  Mis-cabling Examples
@@ -893,9 +893,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 16]
+Wei, et al.              Expires 4 November 2021               [Page 16]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
       +-------+    +-------+           +-------+    +-------+
@@ -949,9 +949,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 17]
+Wei, et al.              Expires 4 November 2021               [Page 17]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
            +-------+    +-------+        +-------+    +-------+
@@ -1005,9 +1005,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 18]
+Wei, et al.              Expires 4 November 2021               [Page 18]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    In the general case, [RIFT] solves that problem by interconnecting
@@ -1061,9 +1061,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 19]
+Wei, et al.              Expires 4 November 2021               [Page 19]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    The bottom line is that in a fabric that is partitioned (e.g., using
@@ -1117,9 +1117,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 20]
+Wei, et al.              Expires 4 November 2021               [Page 20]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    routes.  Otherwise, the sequence counter from the mobile node, if
@@ -1173,9 +1173,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 21]
+Wei, et al.              Expires 4 November 2021               [Page 21]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    computed per address family as long as the computation remains loop-
@@ -1229,9 +1229,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 22]
+Wei, et al.              Expires 4 November 2021               [Page 22]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
                          +-------+      +-------+
@@ -1285,9 +1285,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 23]
+Wei, et al.              Expires 4 November 2021               [Page 23]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.10.  Dual Homing Servers
@@ -1341,9 +1341,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 24]
+Wei, et al.              Expires 4 November 2021               [Page 24]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.11.  Fabric With A Controller
@@ -1397,16 +1397,16 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 25]
+Wei, et al.              Expires 4 November 2021               [Page 25]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.12.  Internet Connectivity With Underlay
 
    If global addressing is running without overlay, an external default
-   route needs to be advertised through rift fabric to achieve internet
-   connectivity.  For the purpose of forwarding of the entire rift
+   route needs to be advertised through RIFT fabric to achieve internet
+   connectivity.  For the purpose of forwarding of the entire RIFT
    fabric, an internal fabric prefix needs to be advertised in the South
    Prefix TIE by ToF and spine nodes.
 
@@ -1453,9 +1453,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 26]
+Wei, et al.              Expires 4 November 2021               [Page 26]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    To prevent this a RIFT implementation should check for subnet
@@ -1509,9 +1509,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 27]
+Wei, et al.              Expires 4 November 2021               [Page 27]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 4.15.  IoT Applicability
@@ -1565,9 +1565,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 28]
+Wei, et al.              Expires 4 November 2021               [Page 28]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
 6.  Contributors
@@ -1621,9 +1621,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 29]
+Wei, et al.              Expires 4 November 2021               [Page 29]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    [RFC7130]  Bhatia, M., Ed., Chen, M., Ed., Boutros, S., Ed.,
@@ -1677,9 +1677,9 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 30]
+Wei, et al.              Expires 4 November 2021               [Page 30]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    [IEEEstd1588]
@@ -1733,9 +1733,9 @@ Authors' Addresses
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 31]
+Wei, et al.              Expires 4 November 2021               [Page 31]
 
-Internet-Draft        RIFT Applicability Statement            April 2021
+Internet-Draft        RIFT Applicability Statement              May 2021
 
 
    Email: wei.yuehua@zte.com.cn
@@ -1789,4 +1789,4 @@ Internet-Draft        RIFT Applicability Statement            April 2021
 
 
 
-Wei, et al.              Expires 28 October 2021               [Page 32]
+Wei, et al.              Expires 4 November 2021               [Page 32]

@@ -14,7 +14,7 @@
 <?rfc subcompact="no"?>
 <?rfc authorship="yes"?>
 <?rfc tocappendix="yes"?>
-<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="info" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-05" >
+<rfc  xmlns:xi="http://www.w3.org/2001/XInclude" category="info" ipr='trust200902' tocInclude="true"  obsoletes="" updates="" consensus="true" submissionType="IETF" xml:lang="en" version="3" docName="draft-ietf-rift-applicability-06" >
 
 <front>
 
@@ -160,7 +160,7 @@ Clos topologies and their variations.
 <xref target='I-D.ietf-rift-rift'>"Routing in Fat Trees"</xref> (RIFT) in
 different deployment scenarios and highlights the operational simplicity of the
 technology compared to traditional routing solutions.
-It also documents special considerations when RIFT is used with or without overlays and/or controllers, and how RIFT corrects topology mis-cablings and/or node and link failures.
+It also documents special considerations when RIFT is used with or without overlays and/or controllers, and how RIFT identifies topology mis-cablings and reroutes around node and link failures.
 </t>
 
 </section>
@@ -181,11 +181,22 @@ When applied to Fat Tree topologies:
             <li>All nodes including spine and leaf nodes learn the entire network topology and
             routing information, which is in fact, not needed on the leaf nodes during normal
                 operation.</li>
+            <!--
             <li>Significant link-state PDUs (LSPs) flooding duplication between
-            spine nodes and leaf nodes occurs during network bring up and topology updates. </li>
+            spine nodes and leaf nodes occurs during network bring up and topology updates.
+            </li>
             <li>This
             consumes both  CPU and link bandwidth resources which prevents the
             use of cheaper hardware at the lower levels (leaf and spine) and reduces the scalability and reactivity.of the network.</li>
+            -->
+
+            <li>They flood significant amounts of duplicate link state information between spine
+            and leaf nodes during topology updates and convergence events, requiring that
+            additional CPU and link bandwidth be consumed.
+            This may impact the stability and scalability of the fabric, make the fabric less
+            reactive to failures, and prevent the use of cheaper hardware at the lower levels
+            (i.e. spine and leaf nodes).
+            </li>
     </ul>
 </section>
 
@@ -199,7 +210,9 @@ terms and concepts used in <xref target='RFC2328'>OSPF</xref>
 and <xref target='ISO10589-Second-Edition'>IS-IS</xref> link-state protocols. The sections of <xref target='I-D.ietf-rift-rift'>RIFT</xref> outline the requirements of routing in IP fabrics and RIFT protocol concepts.
 </t>
 <section><name>Overview of RIFT</name>
-<t>RIFT is a dynamic routing protocol that is specifically tailored for use in Clos and Fat Tree network topologies. A core property of RIFT is that its operation is
+<t>
+RIFT is a dynamic routing protocol that is tailored for use in Clos, Fat-Tree, and other anisotropic topologies.
+A core property of RIFT is that its operation is
 sensitive to the structure of the fabric - it is anisotropic. RIFT
 acts as a link-state protocol when "pointing north" - advertising southwards
 routes to northwards peer routers (parents) through flooding and database synchronization- but
@@ -1127,7 +1140,7 @@ RIFT domain  |Spine|        |Spine|
 </section>
 
     <section><name>Internet Connectivity With Underlay</name>
-	<t>If global addressing is running without overlay, an external default route needs to be advertised through rift fabric to achieve internet connectivity. For the purpose of forwarding of the entire rift fabric, an internal fabric prefix needs to be advertised in the South Prefix TIE by ToF and spine nodes.</t>
+	<t>If global addressing is running without overlay, an external default route needs to be advertised through RIFT fabric to achieve internet connectivity. For the purpose of forwarding of the entire RIFT fabric, an internal fabric prefix needs to be advertised in the South Prefix TIE by ToF and spine nodes.</t>
         <section><name>Internet Default on the Leaf</name>
             <t>In case that an internet access request comes from a leaf and the internet gateway is another leaf, the leaf node as the internet gateway needs to advertise a default route in its Prefix North TIE.</t>
         </section>
