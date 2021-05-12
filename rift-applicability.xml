@@ -806,7 +806,7 @@ configure the level of all the nodes but those that are forced as leaves to avoi
 <t>ZTP requires that the administrator points out the Top-of-Fabric (ToF) nodes to set the baseline from which the fabric topology is derived. The Top-of-Fabric nodes are configured with TOP_OF_FABRIC flag which are initial 'seeds' needed for other ZTP nodes to derive their level in the topology.
 ZTP computes the level of each node based on the Highest Available Level (HAL)
 of the potential parent(s) nearest that baseline, which represents the superspine.
-In a fashion, RIFT can be seen a s a distance-vector protocol that computes a set offeasible successors towards the superspine and auto-configures the rest of the topology.
+In a fashion, RIFT can be seen as a distance-vector protocol that computes a set offeasible successors towards the superspine and auto-configures the rest of the topology.
  </t>
 <t>
  The autoconfiguration mechanism computes a global maximum of levels by diffusion.
