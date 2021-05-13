@@ -407,9 +407,9 @@ Northbound, RIFT operates as a link-state protocol, whereby the control packets 
   <li>
   RIFT applies to any Destination-Oriented DAG (DODAG) where there's only one ToF node and the problem of disaggregation does not exist. In that case, RIFT
   operates very much like RPL <xref target='RFC6550'/>, but using Link State for southbound routes (downwards in RPL's terms).
-  For an arbitrary DAG with multiple destinations (ToFs) the way disaggragation happens has to be considered.
+  For an arbitrary DAG with multiple destinations (ToFs) the way disaggregation happens has to be considered.
   </li>
-  <li>Positive disaggregation expects that most of the ToF nodes reach most of the leaves, so disaggragation is the exception as opposed to the rule. When this is no more true, is makes sense to turn off disaggragation and route between the ToF nodes over a ring, a full mesh, transit network, or a form of area zero. There again, this operation is similar to RPL operating as a single DODAG with a virtual root.
+  <li>Positive disaggregation expects that most of the ToF nodes reach most of the leaves, so disaggregation is the exception as opposed to the rule. When this is no more true, it makes sense to turn off disaggrgation and route between the ToF nodes over a ring, a full mesh, transit network, or a form of area zero. There again, this operation is similar to RPL operating as a single DODAG with a virtual root.
   </li>
   <li>
   In order to aggregate and disaggregate routes, RIFT requires that all the ToF nodes share the full knowledge of the prefixes in the fabric.
